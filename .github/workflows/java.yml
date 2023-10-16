@@ -1,0 +1,59 @@
+name: Create release on commit
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  jar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Java v8
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build the JAR file
+        run: |
+          cd src
+          javac *.java
+          cd ../
+          jar cvmf  ./src/META-INF/MANIFEST.MF Game.jar -C $(pwd)/src .
+
+      - name: Build the .exe file for lazy people
+        run: |
+          sudo apt-get install wget dos2unix
+          wget https://liquidtelecom.dl.sourceforge.net/project/launch4j/launch4j-3/3.50/launch4j-3.50-linux.tgz
+          tar xzvf launch4j-3.50-linux.tgz          
+          dos2unix launch4j/*
+          ./launch4j/launch4j launch4j.xml
+
+      - name: Zip needed resources
+        run: |
+          sudo apt-get install zip
+          zip -r Game.zip Game.exe Game.jar resources
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: runnable
+          name: Rolling release of the project
+          draft: true
+          body: |
+            # HOWTO
+            Unzip the Game.zip, you should see the `Game.jar` file, `Game.exe` and `resources` folder.
+            
+            If that is the case, run `java -jar Game.jar`
+            
+            There is an `.exe` file available for Windows users.
+            
+            > :warning: Minimum Java version: 8
+          files: Game.zip
