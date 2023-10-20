@@ -32,6 +32,21 @@ public abstract class BaseEntity {
     }
 
     /**
+     * Move the entity after applying a set of displacement(s)
+     */
+    public double move() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+
+    public void addX(int x) {
+        this.x += x;
+    }
+
+    public void addY(int y) {
+        this.y += y;
+    }
+
+    /**
      * Check if 2 entities are position-absolute colliding with each other.
      *
      * @param other The other entity to check.
