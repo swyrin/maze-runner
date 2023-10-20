@@ -32,6 +32,7 @@ public class Window extends JFrame {
         this.setMinimumSize(dimension);
         this.setMaximumSize(dimension);
         this.isFullscreen = false;
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
     }
@@ -48,8 +49,8 @@ public class Window extends JFrame {
         this.getContentPane().add(anotherScreen);
         this.getContentPane().revalidate();
         anotherScreen.setVisible(true);
-        anotherScreen.requestFocus();
         this.repaint();
+        anotherScreen.requestFocus();
 
         this.setCurrentCanonicalScreen(anotherScreen);
         anotherScreen.setParentWindow(this);

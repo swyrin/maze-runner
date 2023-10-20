@@ -6,6 +6,7 @@ import javax.swing.*;
 
 /**
  * The screen to be shown on the window.
+ * Please note this is just the basic screen, extension is ill-advised.
  */
 public class Screen extends JPanel {
     /**
@@ -19,7 +20,9 @@ public class Screen extends JPanel {
      * @param bind The key binding.
      */
     public void registerKeyEvent(KeyBinding bind) {
-        this.getInputMap().put(
+        final int CONDITION = JComponent.WHEN_IN_FOCUSED_WINDOW;
+
+        this.getInputMap(CONDITION).put(
                 KeyStroke.getKeyStroke(bind.getKeys()),
                 bind.getNote()
         );
