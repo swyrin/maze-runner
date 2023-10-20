@@ -1,7 +1,7 @@
 package Engine;
 
 public class GameController {
-    public static void setup() {
+    public void setupGame() {
         System.setProperty("sun.java2d.opengl", "True");
         System.setProperty("sun.java2d.xrender", "True");
     }
