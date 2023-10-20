@@ -1,11 +1,16 @@
-Maze Runner(s): Offline - 1 player with 3 allies (mobs) - 1 aggresive (mobs)
-(ft Monster Hunter World : Iceborne)
+# Maze Runner(s)
 
-Idea: Pacman (old OOP project)
-Source: https://github.com/team-dut/pacman-from-wish-and-walmart
+*ft The Maze Runner (2014)*
 
+Offline - 1 player with 3 allies (mobs) - 1 aggresive (mobs)
+
+Idea:
+- Maps: [Pacman](https://github.com/team-dut/pacman-from-wish-and-walmart) (old OOP project) 
+- Movie: The Maze Runner (https://www.imdb.com/title/tt1790864/)
+
+About Game Engine:
 - 3 mazes (Pacman project + 2 more)
-	+ 4 keys each map at each corners
+	+ 4 keys each map at each corner
 	+ enter new map: bring 4 keys into boss spawn point
 	+ entrance, exits in map : no dead ends
 	+ 1 connector between parts near the centre map(boss spawn point) (1 map is devided into 4 parts)
