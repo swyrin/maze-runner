@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 
 class Square extends BaseEntity {
+    private Color color;
     /**
      * Create an entity.
      *
@@ -19,8 +20,17 @@ class Square extends BaseEntity {
      * @param y The initial y-axis position.
      */
     public Square(int x, int y) {
-        super(x, y);
+        super(x, y); this.color = Color.cyan;
     }
+
+    /**
+     * Change into to Color.a
+     * @param a
+     */
+    public void colorChange(Color a){
+        this.color = a;
+    }
+    public Color getColor(){ return this.color;}
 }
 
 class GameScreen extends Screen {
@@ -35,7 +45,7 @@ class GameScreen extends Screen {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.setColor(Color.cyan);
+        g.setColor(sq.getColor());
         g.fillRect(sq.getX(), sq.getY(), 30, 30);
     }
 }
@@ -94,6 +104,40 @@ public class BasicBlockDemo {
                                 w.repaint();
                             }
                         }));
+
+        screen.registerKeyEvent(
+                new KeyBinding("Temporal Mantle",
+                        "Q",
+                        new AbstractAction() {
+                            public void actionPerformed(ActionEvent e) {
+                                System.out.println("Change into Yellow");
+                                sq.colorChange(Color.yellow);
+                                w.repaint();
+                            }
+                        }));
+
+        screen.registerKeyEvent(
+                new KeyBinding("Gillie Mantle",
+                        "E",
+                        new AbstractAction() {
+                            public void actionPerformed(ActionEvent e) {
+                                System.out.println("Change into Green");
+                                sq.colorChange(Color.green);
+                                w.repaint();
+                            }
+                        }));
+
+        screen.registerKeyEvent(
+                new KeyBinding("Mantle - Off",
+                        "N",
+                        new AbstractAction() {
+                            public void actionPerformed(ActionEvent e) {
+                                System.out.println("No - mantle");
+                                sq.colorChange(Color.cyan);
+                                w.repaint();
+                            }
+                        }));
+
 
         w.replaceCurrentScreenWith(screen);
         w.setVisible(true);

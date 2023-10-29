@@ -1,5 +1,7 @@
 package Engine.Object;
 
+import java.awt.*;
+
 /**
  * Represents an entity on the screen.
  */
