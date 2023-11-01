@@ -20,9 +20,8 @@ public class Screen extends JPanel {
      * @param bind The key binding.
      */
     public void registerKeyEvent(KeyBinding bind) {
-        final int CONDITION = JComponent.WHEN_IN_FOCUSED_WINDOW;
 
-        this.getInputMap(CONDITION).put(
+        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(bind.getKeys()),
                 bind.getNote()
         );
