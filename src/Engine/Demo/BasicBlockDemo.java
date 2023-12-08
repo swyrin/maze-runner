@@ -42,11 +42,14 @@ class GameScreen extends Screen {
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
+    public void render(Graphics g) {
         g.setColor(sq.getColor());
         g.fillRect(sq.getX(), sq.getY(), 30, 30);
+    }
+
+    @Override
+    public void init() {
+
     }
 }
 

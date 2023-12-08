@@ -1,5 +1,8 @@
 package Engine.Demo;
 
+import Engine.Demo.Screen.BlueScreen;
+import Engine.Demo.Screen.GreenScreen;
+import Engine.Demo.Screen.RedScreen;
 import Engine.UI.Screen;
 import Engine.UI.Window;
 
@@ -9,15 +12,9 @@ public class SceneSwitchDemo {
     public static void main(String... args) throws InterruptedException {
         Window window = new Window(new Dimension(1366, 768));
 
-        Screen screen1 = new Screen(), screen2 = new Screen(), screen3 = new Screen();
-
-        screen1.setBackground(Color.red);
-        screen2.setBackground(Color.blue);
-        screen3.setBackground(Color.green);
-
-        screen1.add(new TextArea("Red"));
-        screen2.add(new TextArea("Blue"));
-        screen3.add(new TextArea("Green"));
+        Screen screen1 = new RedScreen(),
+                screen2 = new BlueScreen(),
+                screen3 = new GreenScreen();
 
         Screen[] screens = {screen1, screen2, screen3};
         window.setVisible(true);
