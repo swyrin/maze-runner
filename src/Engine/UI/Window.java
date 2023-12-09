@@ -8,19 +8,9 @@ import java.awt.*;
  */
 public class Window extends JFrame {
     /**
-     * Dimension of the window.
-     */
-    private final Dimension dimension;
-
-    /**
      * The current shown window.
      */
     private Screen currentCanonicalScreen;
-
-    /**
-     * Fullscreen status.
-     */
-    private boolean isFullscreen;
 
     /**
      * Create a fixed window, with a fixed dimension, at center of the screen.
@@ -28,10 +18,7 @@ public class Window extends JFrame {
      * @param dimension The dimension of the window.
      */
     public Window(Dimension dimension) {
-        this.dimension = dimension;
-        this.setMinimumSize(dimension);
-        this.setMaximumSize(dimension);
-        this.isFullscreen = false;
+        this.setSize(dimension);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -62,7 +49,7 @@ public class Window extends JFrame {
      * @return The dimensions.
      */
     public Dimension getDimension() {
-        return dimension;
+        return super.getSize();
     }
 
     /**
