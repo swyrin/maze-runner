@@ -2,6 +2,9 @@ import Engine.GameController;
 
 public class Main {
     public static void main(String[] args) {
-        new GameController().setupGame();
+        GameController controller = new GameController();
+        controller.init();
+
+        // controller.start(w, s)
     }
 }
