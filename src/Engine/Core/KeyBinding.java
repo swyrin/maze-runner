@@ -25,9 +25,10 @@ public class KeyBinding {
 
     /**
      * Create a key binding
+     *
      * @param note Why this one exists.
      * @param keys The keys to register
-     * @param a The linked action.
+     * @param a    The linked action.
      */
     public KeyBinding(String note, String keys, Action a) {
         this.note = note;
@@ -37,6 +38,7 @@ public class KeyBinding {
 
     /**
      * Get the key binding note.
+     *
      * @return The note.
      */
     public String getNote() {
@@ -45,6 +47,7 @@ public class KeyBinding {
 
     /**
      * Get the keys of this binding.
+     *
      * @return The binding.
      */
     public String getKeys() {
@@ -53,6 +56,7 @@ public class KeyBinding {
 
     /**
      * Get the action of this binding.
+     *
      * @return The action.
      */
     public Action getAction() {

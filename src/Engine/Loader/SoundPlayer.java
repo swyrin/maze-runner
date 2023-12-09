@@ -22,6 +22,7 @@ public class SoundPlayer {
 
     /**
      * Create a player with custom loop status.
+     *
      * @param path Path of the audio file.
      * @param loop Is loop needed?
      */
@@ -32,6 +33,7 @@ public class SoundPlayer {
 
     /**
      * Create a player with loop off.
+     *
      * @param path Path of the audio file.
      */
     public SoundPlayer(final String path) {
@@ -49,6 +51,7 @@ public class SoundPlayer {
 
     /**
      * Get the audio associated with this player.
+     *
      * @return The audio clip.
      */
     public Clip getClip() {
@@ -57,6 +60,7 @@ public class SoundPlayer {
 
     /**
      * Get loop status.
+     *
      * @return Loop status.
      */
     public boolean getLoop() {

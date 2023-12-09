@@ -11,7 +11,8 @@ import java.awt.image.BufferedImage;
 public class ImageHelper {
     /**
      * Rotate an image counter clock-wise.
-     * @param i The target image.
+     *
+     * @param i      The target image.
      * @param degree The angle to rotate.
      * @return The processed image.
      */
@@ -25,7 +26,8 @@ public class ImageHelper {
 
     /**
      * Rotate an image clock-wise.
-     * @param i The target image.
+     *
+     * @param i      The target image.
      * @param degree The angle to rotate.
      * @return The processed image.
      */
@@ -39,6 +41,7 @@ public class ImageHelper {
 
     /**
      * Flip an image horizontally.
+     *
      * @param i The target image.
      * @return The processed image.
      */
@@ -52,6 +55,7 @@ public class ImageHelper {
 
     /**
      * Flip an image vertically.
+     *
      * @param i The target image.
      * @return The processed image.
      */
