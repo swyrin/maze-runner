@@ -26,8 +26,14 @@ public class CompleteDemo {
                         "F1",
                         new AbstractAction() {
                             public void actionPerformed(ActionEvent e) {
-                                System.out.println("To blue");
-                                w.setBackground(Color.blue);
+                                if(screen.getBackground() == Color.black) {
+                                    System.out.println("To blue");
+                                    screen.setBackground(Color.blue);
+                                }
+                                else{
+                                    System.out.println("Back to blue");
+                                    screen.setBackground(Color.black);
+                                }
                             }
                         }));
 
@@ -71,6 +77,20 @@ public class CompleteDemo {
                             public void actionPerformed(ActionEvent e) {
                                 // System.out.println("D hit");
                                 sq.move(10, 0);
+                                w.repaint();
+                            }
+                        }));
+
+        screen.registerKeyEvent(
+                new KeyBinding("yellow square",
+                        "Q",
+                        new AbstractAction() {
+                            public void actionPerformed(ActionEvent e) {
+                                // System.out.println("S hit");
+                                if(sq.getColor() != Color.yellow)
+                                    sq.colorChange(Color.yellow);
+                                else
+                                    sq.colorChange(Color.cyan);
                                 w.repaint();
                             }
                         }));
