@@ -36,7 +36,9 @@ public class Window extends JFrame {
         this.getContentPane().add(anotherScreen);
         this.getContentPane().revalidate();
         anotherScreen.setVisible(true);
-        this.repaint();
+
+        new Thread(() -> { while (true) { this.repaint(); } }).start();
+
         anotherScreen.requestFocus();
 
         this.setCurrentCanonicalScreen(anotherScreen);
