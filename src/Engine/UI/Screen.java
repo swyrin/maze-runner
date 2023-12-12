@@ -150,9 +150,13 @@ public abstract class Screen extends JPanel {
     public void setVisible(boolean aFlag) {
         super.setVisible(aFlag);
 
-        if (!this.onDemandRender) {
-            this.renderThread.start();
-            this.fpsMeasureThread.start();
+        try {
+            if (!this.onDemandRender) {
+                this.renderThread.start();
+                this.fpsMeasureThread.start();
+            }
+        } catch (IllegalThreadStateException ex) {
+            // fuck you.
         }
     }
 
