@@ -1,6 +1,6 @@
 package Engine.UI;
 
-import Engine.Core.FpsCounter;
+import Engine.Core.FpsMeasureThread;
 import Engine.Core.KeyBinding;
 import Engine.Helper.RenderHelper;
 import Engine.RenderSetting;
@@ -14,6 +14,16 @@ import java.awt.*;
  */
 public abstract class Screen extends JPanel {
     /**
+     * The thread in charge of the rendering.
+     */
+    private final Thread renderThread;
+
+    /**
+     * Should this screen be rendered per "repaint()" call or render indefinitely.
+     */
+    private boolean onDemandRender;
+
+    /**
      * Target fps for this screen.
      */
     private final int targetFps;
@@ -23,9 +33,9 @@ public abstract class Screen extends JPanel {
     private Window parentWindow;
 
     /**
-     * The FPS counter.
+     * The FPS counter thread.
      */
-    protected FpsCounter fpsCounter;
+    protected final FpsMeasureThread fpsMeasureThread;
 
     /**
      * Create the screen with the desired fps.
@@ -34,10 +44,13 @@ public abstract class Screen extends JPanel {
      */
     public Screen(int targetFps) {
         this.setDoubleBuffered(true);
+
+        this.onDemandRender = false;
         this.targetFps = targetFps;
-        this.fpsCounter = new FpsCounter();
+        this.fpsMeasureThread = new FpsMeasureThread();
+        this.renderThread = new Thread(() -> { while (true) { this.repaint(); } });
+
         this.init();
-        this.fpsCounter.start();
     }
 
     /**
@@ -65,12 +78,24 @@ public abstract class Screen extends JPanel {
     }
 
     /**
+     * Where this screen is an on-demand render screen.
+     * @param onDemandRender the flag.
+     */
+    public void setOnDemandRender(boolean onDemandRender) {
+        this.onDemandRender = onDemandRender;
+    }
+
+    /**
      * Get the parent window - the one handling this screen.
      *
      * @return The window.
      */
     public Window getParentWindow() {
         return parentWindow;
+    }
+
+    public Thread getRenderThread() {
+        return renderThread;
     }
 
     /**
@@ -103,11 +128,34 @@ public abstract class Screen extends JPanel {
 
         try {
             render(g2d);
-            this.fpsCounter.interrupt();
+            this.fpsMeasureThread.interrupt();
             Thread.sleep((long) RenderHelper.getRenderDelayForTargetFps(this.targetFps));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Make the screen visible, and start rendering.
+     *
+     * @param aFlag true to make the component visible; false to make it invisible
+     */
+    @Override
+    public void setVisible(boolean aFlag) {
+        super.setVisible(aFlag);
+
+        if (!this.onDemandRender) {
+            this.renderThread.start();
+            this.fpsMeasureThread.start();
+        }
+    }
+
+    /**
+     * Dispose the running screen. Meant to be replaced with another screen.
+     */
+    public void dispose() {
+        if (this.renderThread.isAlive()) this.renderThread.interrupt();
+        if (this.fpsMeasureThread.isAlive()) this.fpsMeasureThread.interrupt();
     }
 
     /**
