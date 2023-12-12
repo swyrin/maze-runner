@@ -7,7 +7,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class StressTestScreen extends Screen {
-    private Square[] squares;
+    private final Square[] squares;
 
     public StressTestScreen(Square[] squares) {
         super();
@@ -39,7 +39,7 @@ public class StressTestScreen extends Screen {
             g2d.fillRect(sq.getX(), sq.getY(), 30, 30);
         }
 
-        this.getParentWindow().setTitle(String.valueOf(this.fpsCounter.getFps()));
+        this.getParentWindow().setTitle(String.valueOf(this.fpsMeasureThread.getFps()));
     }
 
     @Override
