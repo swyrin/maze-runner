@@ -117,6 +117,12 @@ public abstract class Screen extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
+        if (RenderSetting.myPCSucks) {
+            g2d.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION, RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
+            g2d.setRenderingHint(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_SPEED);
+            g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_SPEED);
+        }
+
         if (RenderSetting.useInterpolation) {
             g2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderSetting.interpolationChoice);
         }
