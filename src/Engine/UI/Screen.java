@@ -1,5 +1,6 @@
 package Engine.UI;
 
+import Engine.Core.FpsCounter;
 import Engine.Core.KeyBinding;
 import Engine.Helper.RenderHelper;
 import Engine.RenderSetting;
@@ -22,6 +23,11 @@ public abstract class Screen extends JPanel {
     private Window parentWindow;
 
     /**
+     * The FPS counter.
+     */
+    protected FpsCounter fpsCounter;
+
+    /**
      * Create the screen with the desired fps.
      *
      * @param targetFps The desired fps.
@@ -29,7 +35,9 @@ public abstract class Screen extends JPanel {
     public Screen(int targetFps) {
         this.setDoubleBuffered(true);
         this.targetFps = targetFps;
+        this.fpsCounter = new FpsCounter();
         this.init();
+        this.fpsCounter.start();
     }
 
     /**
@@ -95,6 +103,7 @@ public abstract class Screen extends JPanel {
 
         try {
             render(g2d);
+            this.fpsCounter.interrupt();
             Thread.sleep((long) RenderHelper.getRenderDelayForTargetFps(this.targetFps));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
