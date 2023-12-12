@@ -1,6 +1,6 @@
 package Engine.Core;
 
-public class FpsCounter extends Thread {
+public class FpsMeasureThread extends Thread {
     private double fps = 0;
 
     public void run() {
