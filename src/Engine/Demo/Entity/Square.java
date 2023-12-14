@@ -26,9 +26,7 @@ public class Square extends BaseEntity {
      */
     public Square(int x, int y, Color color) {
         super(x, y);
-        this.color = new Color( (int)(Math.random()*256),
-                                (int)(Math.random()*256),
-                                (int)(Math.random()*256));
+        this.color = color;
     }
 
     /**
