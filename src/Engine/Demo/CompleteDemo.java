@@ -42,9 +42,7 @@ public class CompleteDemo {
                         "W",
                         new AbstractAction() {
                             public void actionPerformed(ActionEvent e) {
-                                // System.out.println("W hit");
                                 sq.move(0, -10);
-                                w.repaint();
                             }
                         }));
 
@@ -53,9 +51,7 @@ public class CompleteDemo {
                         "A",
                         new AbstractAction() {
                             public void actionPerformed(ActionEvent e) {
-                                // System.out.println("A hit");
                                 sq.move(-10, 0);
-                                w.repaint();
                             }
                         }));
 
@@ -64,9 +60,7 @@ public class CompleteDemo {
                         "S",
                         new AbstractAction() {
                             public void actionPerformed(ActionEvent e) {
-                                // System.out.println("S hit");
                                 sq.move(0, 10);
-                                w.repaint();
                             }
                         }));
 
@@ -75,9 +69,7 @@ public class CompleteDemo {
                         "D",
                         new AbstractAction() {
                             public void actionPerformed(ActionEvent e) {
-                                // System.out.println("D hit");
                                 sq.move(10, 0);
-                                w.repaint();
                             }
                         }));
 

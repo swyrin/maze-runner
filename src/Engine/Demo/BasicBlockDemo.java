@@ -78,7 +78,6 @@ public class BasicBlockDemo {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("W hit");
                                 sq.move(0, -10);
-                                w.repaint();
                             }
                         }));
 
@@ -89,7 +88,6 @@ public class BasicBlockDemo {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("A hit");
                                 sq.move(-10, 0);
-                                w.repaint();
                             }
                         }));
 
@@ -100,7 +98,6 @@ public class BasicBlockDemo {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("S hit");
                                 sq.move(0, 10);
-                                w.repaint();
                             }
                         }));
 
@@ -111,7 +108,6 @@ public class BasicBlockDemo {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("D hit");
                                 sq.move(10, 0);
-                                w.repaint();
                             }
                         }));
 
@@ -122,7 +118,6 @@ public class BasicBlockDemo {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("Change into Yellow");
                                 sq.colorChange(Color.yellow);
-                                w.repaint();
                             }
                         }));
 
@@ -133,7 +128,6 @@ public class BasicBlockDemo {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("Change into Green");
                                 sq.colorChange(Color.green);
-                                w.repaint();
                             }
                         }));
 
@@ -144,7 +138,6 @@ public class BasicBlockDemo {
                             public void actionPerformed(ActionEvent e) {
                                 System.out.println("No - mantle");
                                 sq.colorChange(Color.cyan);
-                                w.repaint();
                             }
                         }));
 

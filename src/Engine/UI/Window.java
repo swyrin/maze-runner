@@ -30,13 +30,16 @@ public class Window extends JFrame {
      * @param anotherScreen The screen to replace with.
      */
     public void replaceCurrentScreenWith(Screen anotherScreen) {
+        Screen currentOngoingScreen = getCurrentCanonicalScreen();
+        if (currentOngoingScreen != null) currentOngoingScreen.dispose();
+
         this.getContentPane().invalidate();
         this.getContentPane().removeAll();
 
         this.getContentPane().add(anotherScreen);
         this.getContentPane().revalidate();
         anotherScreen.setVisible(true);
-        this.repaint();
+
         anotherScreen.requestFocus();
 
         this.setCurrentCanonicalScreen(anotherScreen);

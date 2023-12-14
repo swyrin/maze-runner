@@ -8,12 +8,23 @@ public class Square extends BaseEntity {
     private Color color;
 
     /**
-     * Create an entity.
+     * Create a square.
      *
      * @param x The initial x-axis position.
      * @param y The initial y-axis position.
      */
     public Square(int x, int y) {
+        this(x, y, Color.cyan);
+    }
+
+    /**
+     * Create a square with position and color.
+     *
+     * @param x The initial x-axis position.
+     * @param y The initial y-axis position.
+     * @param color The initial color.
+     */
+    public Square(int x, int y, Color color) {
         super(x, y);
         this.color = new Color( (int)(Math.random()*256),
                                 (int)(Math.random()*256),
@@ -21,24 +32,12 @@ public class Square extends BaseEntity {
     }
 
     /**
-     * Create an entity.
+     * Change to a new color.
      *
-     * @param x The initial x-axis position.
-     * @param y The initial y-axis position.
-     * @param e The initial square's color.
+     * @param newColor New color to set.
      */
-    public Square(int x, int y, Color e) {
-        super(x, y);
-        this.color = e;
-    }
-
-    /**
-     * Change into to Color.a
-     *
-     * @param a
-     */
-    public void colorChange(Color a) {
-        this.color = a;
+    public void colorChange(Color newColor) {
+        this.color = newColor;
     }
 
     public Color getColor() {

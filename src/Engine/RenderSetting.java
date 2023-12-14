@@ -9,7 +9,7 @@ public class RenderSetting {
     /**
      * Target frames per second.
      */
-    public static int maxFps = 24;
+    public static int maxFps = 7500;
 
     /**
      * Whether to use Hardware Acceleration.
@@ -32,4 +32,9 @@ public class RenderSetting {
      * What algorithm to use for interpolation.
      */
     public static Object interpolationChoice = RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+
+    /**
+     * Name is self-explanatory.
+     */
+    public static boolean myPCSucks = false;
 }
