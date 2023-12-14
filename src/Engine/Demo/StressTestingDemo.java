@@ -26,7 +26,7 @@ public class StressTestingDemo {
 
         Window w = new Window(new Dimension(1900, 1000));
 
-        Color[] colors = { Color.CYAN, Color.WHITE, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW };
+        Color[] colors = {Color.CYAN, Color.WHITE, Color.GREEN, Color.MAGENTA, Color.RED, Color.YELLOW};
         Square[] squares = new Square[4500];
 
         StressTestScreen screen = new StressTestScreen(squares);
@@ -34,7 +34,7 @@ public class StressTestingDemo {
 
         int n = squares.length;
 
-        for(int i = 0; i < n; ++i) {
+        for (int i = 0; i < n; ++i) {
             squares[i] = new Square(
                     new Random().nextInt(0, w.getWidth()),
                     new Random().nextInt(0, w.getHeight()),

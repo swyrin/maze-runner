@@ -13,4 +13,4 @@ public class GreenScreen extends Screen {
     public void init() {
         System.out.println("Green scene created.");
     }
-};
+}

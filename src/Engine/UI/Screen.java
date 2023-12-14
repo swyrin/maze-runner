@@ -14,28 +14,25 @@ import java.awt.*;
  */
 public abstract class Screen extends JPanel {
     /**
+     * The FPS counter thread.
+     */
+    protected final FpsMeasureThread fpsMeasureThread;
+    /**
      * The thread in charge of the rendering.
      */
     private final Thread renderThread;
-
-    /**
-     * Should this screen be rendered per "repaint()" call or render indefinitely.
-     */
-    private boolean onDemandRender;
-
     /**
      * Target fps for this screen.
      */
     private final int targetFps;
     /**
+     * Should this screen be rendered per "repaint()" call or render indefinitely.
+     */
+    private boolean onDemandRender;
+    /**
      * The parent window handling this.
      */
     private Window parentWindow;
-
-    /**
-     * The FPS counter thread.
-     */
-    protected final FpsMeasureThread fpsMeasureThread;
 
     /**
      * Create the screen with the desired fps.
@@ -48,7 +45,11 @@ public abstract class Screen extends JPanel {
         this.onDemandRender = false;
         this.targetFps = targetFps;
         this.fpsMeasureThread = new FpsMeasureThread();
-        this.renderThread = new Thread(() -> { while (true) { this.repaint(); } });
+        this.renderThread = new Thread(() -> {
+            while (true) {
+                this.repaint();
+            }
+        });
 
         this.init();
     }
@@ -79,6 +80,7 @@ public abstract class Screen extends JPanel {
 
     /**
      * Where this screen is an on-demand render screen.
+     *
      * @param onDemandRender the flag.
      */
     public void setOnDemandRender(boolean onDemandRender) {
@@ -94,10 +96,6 @@ public abstract class Screen extends JPanel {
         return parentWindow;
     }
 
-    public Thread getRenderThread() {
-        return renderThread;
-    }
-
     /**
      * Set the parent window.
      *
@@ -105,6 +103,10 @@ public abstract class Screen extends JPanel {
      */
     public void setParentWindow(Window parentWindow) {
         this.parentWindow = parentWindow;
+    }
+
+    public Thread getRenderThread() {
+        return renderThread;
     }
 
     /**

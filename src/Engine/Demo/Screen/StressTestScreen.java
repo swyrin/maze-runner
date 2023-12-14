@@ -13,6 +13,7 @@ public class StressTestScreen extends Screen {
         super();
         this.squares = squares;
     }
+
     @Override
     public void render(Graphics2D g2d) {
         int n = squares.length;

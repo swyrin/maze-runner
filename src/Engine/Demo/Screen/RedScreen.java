@@ -15,4 +15,4 @@ public class RedScreen extends Screen {
     public void init() {
         System.out.println("Red scene created.");
     }
-};
+}
