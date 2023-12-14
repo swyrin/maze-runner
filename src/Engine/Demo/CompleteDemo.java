@@ -26,11 +26,10 @@ public class CompleteDemo {
                         "F1",
                         new AbstractAction() {
                             public void actionPerformed(ActionEvent e) {
-                                if(screen.getBackground() == Color.black) {
+                                if (screen.getBackground() == Color.black) {
                                     System.out.println("To blue");
                                     screen.setBackground(Color.blue);
-                                }
-                                else{
+                                } else {
                                     System.out.println("Back to blue");
                                     screen.setBackground(Color.black);
                                 }
@@ -78,12 +77,10 @@ public class CompleteDemo {
                         "Q",
                         new AbstractAction() {
                             public void actionPerformed(ActionEvent e) {
-                                // System.out.println("S hit");
-                                if(sq.getColor() != Color.yellow)
-                                    sq.colorChange(Color.yellow);
+                                if (sq.getColor() != Color.yellow)
+                                    sq.changeColor(Color.yellow);
                                 else
-                                    sq.colorChange(Color.cyan);
-                                w.repaint();
+                                    sq.changeColor(Color.cyan);
                             }
                         }));
 
