@@ -15,7 +15,21 @@ public class Square extends BaseEntity {
      */
     public Square(int x, int y) {
         super(x, y);
-        this.color = Color.cyan;
+        this.color = new Color( (int)(Math.random()*256),
+                                (int)(Math.random()*256),
+                                (int)(Math.random()*256));
+    }
+
+    /**
+     * Create an entity.
+     *
+     * @param x The initial x-axis position.
+     * @param y The initial y-axis position.
+     * @param e The initial square's color.
+     */
+    public Square(int x, int y, Color e) {
+        super(x, y);
+        this.color = e;
     }
 
     /**
