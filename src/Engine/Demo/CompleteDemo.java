@@ -16,7 +16,7 @@ public class CompleteDemo {
         controller.init();
 
         Window w = new Window(new Dimension(800, 800));
-        Square sq = new Square(300, 300, Color.cyan);
+        Square sq = new Square(300, 300);
         BlackScreenWithSquare screen = new BlackScreenWithSquare(sq);
 
         screen.setBackground(Color.black);

@@ -37,8 +37,8 @@ public class StressTestingDemo {
         for (int i = 0; i < n; ++i) {
             squares[i] = new Square(
                     new Random().nextInt(0, w.getWidth()),
-                    new Random().nextInt(0, w.getHeight()),
-                    colors[new Random().nextInt(0, 6)]
+                    new Random().nextInt(0, w.getHeight())
+                    // colors[new Random().nextInt(0, 6)]
             );
         }
 
