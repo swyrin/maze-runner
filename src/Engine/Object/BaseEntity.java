@@ -83,4 +83,7 @@ public abstract class BaseEntity {
     public int getY() {
         return y;
     }
+
+    // Override the update method to implement boss behavior
+    public abstract void update();
 }

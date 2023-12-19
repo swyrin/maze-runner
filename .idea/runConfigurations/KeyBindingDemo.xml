@@ -4,7 +4,7 @@
     <module name="TheProject" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="Engine.Demo.*" />
+        <option name="PATTERN" value="Game.Enitity.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

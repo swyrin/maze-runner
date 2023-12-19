@@ -22,6 +22,11 @@ public class Square extends BaseEntity {
         );
     }
 
+    @Override
+    public void update() {
+
+    }
+
     /**
      * Change to a new color.
      *
