@@ -18,7 +18,7 @@ public class Player extends BaseEntity {
     String animationRunRight;
     private String characterAsset;
     private String characterAnimation;
-private boolean alive = true;
+    private boolean alive = true;
     private final String animationHit;
 
     // Current direction and state of the character
