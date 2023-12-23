@@ -1,8 +1,11 @@
 package Game.Maze;
 import java.util.Scanner;
-
-public class Maze {
-    static char[][] maze = {
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+public class Maze extends JFrame  {
+static char[][] maze = {
             {'*', '*', '*', '*','*','*','*','*','*','*','*','*','*','*','*'},
             {'*', 'O', ' ', ' ',' ',' ',' ',' ',' ',' ',' ','*',' ',' ','*'},
             {'*', ' ', '*', '*','*',' ','*',' ','*',' ',' ','*',' ',' ','*'},   
@@ -18,73 +21,73 @@ public class Maze {
             {'*', ' ', '*', '*',' ','*','*',' ','*',' ',' ','*',' ',' ','*'},
             {'*', ' ', ' ', ' ',' ',' ',' ',' ','*',' ',' ',' ',' ',' ','*'},
             {'*', '*', '*', '*','*','*','*','*','*','*','*','*','*','*','*'},
-
-        };
-    public static void main (String [] args){
-        int width = 15;
-        int height = 15;
-        char[][] maze = {
-            {'*', '*', '*', '*','*','*','*','*','*','*','*','*','*','*','*'},
-            {'*', 'O', ' ', ' ',' ',' ',' ',' ',' ',' ',' ','*',' ',' ','*'},
-            {'*', ' ', '*', '*','*',' ','*',' ','*',' ',' ','*',' ',' ','*'},   
-            {'*', ' ', '*', ' ',' ',' ','*',' ','*',' ',' ','*',' ',' ','*'},
-            {'*', ' ', ' ', ' ',' ',' ','*',' ','*',' ',' ','*','*','*','*'},
-            {'*', ' ', '*', '*',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','*'},
-            {'*', '*', '*', '*',' ','*',' ',' ','*','*','*','*',' ',' ','*'},
-            {'*', ' ', ' ', '*',' ','*',' ',' ','*',' ',' ','*',' ',' ','*'},
-            {'*', ' ', ' ', '*',' ','*','*',' ','*',' ','*','*',' ','*','*'},
-            {'*', ' ', ' ', ' ',' ','*','*',' ',' ',' ',' ','*','*','*','*'},
-            {'*', ' ', ' ', ' ',' ',' ',' ',' ','*',' ',' ','*',' ',' ','*'},
-            {'*', ' ', '*', '*',' ','*','*',' ','*',' ',' ','*',' ',' ','*'},
-            {'*', ' ', '*', '*',' ','*','*',' ','*',' ',' ','*',' ',' ','*'},
-            {'*', ' ', ' ', ' ',' ',' ',' ',' ','*',' ',' ',' ',' ',' ','*'},
-            {'*', '*', '*', '*','*','*','*','*','*','*','*','*','*','*','*'},
-
-        };
         
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            // Print the current state of the maze
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    System.out.print(maze[i][j]);
-                }
-                System.out.println();
-            }
+        };
+   
+    
+        
+        
+        int currentX = 0, currentY = 0; // Initial position of 'O'
 
-            // Ask the user for a move
-            System.out.println("Enter a move (w/a/s/d): ");
-            char move = scanner.next().charAt(0);
-
-            // Find the 'O' character
-            int currentX = -1, currentY = -1;
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (maze[i][j] == 'O') {
-                        currentX = j;
-                        currentY = i;
+        public Maze() {
+            setSize(800, 600);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    
+            addKeyListener(new KeyListener() {
+                @Override
+                public void keyTyped(KeyEvent e) {}
+    
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    int key = e.getKeyCode();
+                    if (key == KeyEvent.VK_W && currentY > 0 && maze[currentY - 1][currentX] == ' ') {
+                        maze[currentY][currentX] = ' ';
+                        maze[--currentY][currentX] = 'O';
+                    } else if (key == KeyEvent.VK_A && currentX > 0 && maze[currentY][currentX - 1] == ' ') {
+                        maze[currentY][currentX] = ' ';
+                        maze[currentY][--currentX] = 'O';
+                    } else if (key == KeyEvent.VK_S && currentY < maze.length - 1 && maze[currentY + 1][currentX] == ' ') {
+                        maze[currentY][currentX] = ' ';
+                        maze[++currentY][currentX] = 'O';
+                    } else if (key == KeyEvent.VK_D && currentX < maze[0].length - 1 && maze[currentY][currentX + 1] == ' ') {
+                        maze[currentY][currentX] = ' ';
+                        maze[currentY][++currentX] = 'O';
                     }
+                    repaint(); // Redraw the maze
                 }
-            }
-
-            // Update the position of the 'O' character based on the user's move
-            if (move == 'w' && currentY > 0 && maze[currentY - 1][currentX] == ' ') {
-                maze[currentY][currentX] = ' ';
-                maze[currentY - 1][currentX] = 'O';
-            } else if (move == 'a' && currentX > 0 && maze[currentY][currentX - 1] == ' ') {
-                maze[currentY][currentX] = ' ';
-                maze[currentY][currentX - 1] = 'O';
-            } else if (move == 's' && currentY < height - 1 && maze[currentY + 1][currentX] == ' ') {
-                maze[currentY][currentX] = ' ';
-                maze[currentY + 1][currentX] = 'O';
-            } else if (move == 'd' && currentX < width - 1 && maze[currentY][currentX + 1] == ' ') {
-                maze[currentY][currentX] = ' ';
-                maze[currentY][currentX + 1] = 'O';
+    
+                @Override
+                public void keyReleased(KeyEvent e) {}
+            });
+    
+            setVisible(true);
+        }
+    
+        @Override
+        public void paint(Graphics g) {
+            super.paint(g);
+            for (int i = 0; i < maze.length; i++) {
+                for (int j = 0; j < maze[i].length; j++) {
+                    switch (maze[i][j]) {
+                        case '*':
+                            g.setColor(Color.BLACK);
+                            break;
+                        case 'O':
+                            g.setColor(Color.RED);
+                            break;
+                        case ' ':
+                            g.setColor(Color.WHITE);
+                            break;
+                    }
+                    g.fillRect(j * 20, i * 20 + 20, 20, 20); // Draw a 20x20 square
+                }
             }
         }
+    
+        
     }
     public static char[][] getMaze(){
-    return maze;}
-}
+    return maze;
+    }}
 
 

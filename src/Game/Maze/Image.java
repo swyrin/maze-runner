@@ -1,52 +1,75 @@
 package Game.Maze;
 
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class Image {
+    String edgebottomleft;
+    String edgebottomright;
+    String edgetopleft;
+    String edgetopright;
+    String edgeleft;
+    String edgeright;
+    String edgetshapebottomright;
+    String edgetshapebottomleft;
+    String edgetshaperight;
+    String edgetshapeleft;
+    String edgemidleft;
+    String edgemidright;
 
-    public static void main(String[] args) throws IOException {
-        JFrame frame = buildFrame();
-
-        final BufferedImage edgebottomleft = ImageIO.read(new File("d:\\_maze\\resources\\Wall\\wall_edge_bottom_left.pngl"));
-        final BufferedImage edgebottomright = ImageIO.read(new File("D:\\_maze\\resources\\Wall\\wall_edge_bottom_right.png"));
-        final BufferedImage edgetopleft = ImageIO.read(new File("D:\\_maze\resources\\Wall\\wall_edge_top_left.png"));
-        final BufferedImage edgetopright = ImageIO.read(new File("d:\\_maze\resources\\Wall\\wall_edge_top_right.png"));
-        final BufferedImage edgeleft = ImageIO.read(new File("d:\\_maze\\resources\\Wall\\wall_edge_left.png"));
-        final BufferedImage edgeright = ImageIO.read(new File("d:\\_maze\resources\\Wall\\wall_edge_right.png"));
-
-        JPanel pane = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(edgebottomleft, 1, 15, null);
-                g.drawImage(edgebottomright,15, 0, null);
-                g.drawImage(edgetopright,15, 1, null);
-                g.drawImage(edgetopleft,1, 1, null);
-                g.drawImage(edgeleft,0, 0, null);
-                g.drawImage(edgeright,0, 0, null);
+    public Image() {
+        edgebottomleft = "wall_edge_bottom_left.png";
+        edgebottomright = "wall_edge_bottom_right.png";
+        edgetopleft = "wall_edge_top_left.png";
+        edgetopright = "wall_edge_top_right.png";
+        edgeleft = "wall_edge_left.png";
+        edgeright = "wall_edge_right.png";
+        edgetshapebottomright = "wall_edge_tshape_bottom_right";
+        edgetshapebottomleft = "wall_edge_tshape_bottom_left.png";
+        edgetshaperight = "wall_edge_tshape_right.png";
+        edgetshapeleft = "wall_edge_tshape_left.png";
+        edgemidleft = "wall_edge_mid_left.png";
+        edgemidright = "wall_edge_mid_right.png";
+    }
+    public void render(Graphics g) {
+        char[][] maze = {
+            {'*', '*', '*', '*','*','*','*','*','*','*','*','*','*','*','*'},
+            {'*', 'O', ' ', ' ',' ',' ',' ',' ',' ',' ',' ','*',' ',' ','*'},
+            {'*', ' ', '*', '*','*',' ','*',' ','*',' ',' ','*',' ',' ','*'},   
+            {'*', ' ', '*', ' ',' ',' ','*',' ','*',' ',' ','*',' ',' ','*'},
+            {'*', ' ', ' ', ' ',' ',' ','*',' ','*',' ',' ','*','*','*','*'},
+            {'*', ' ', '*', '*',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','*'},
+            {'*', '*', '*', '*',' ','*',' ',' ','*','*','*','*',' ',' ','*'},
+            {'*', ' ', ' ', '*',' ','*',' ',' ','*',' ',' ','*',' ',' ','*'},
+            {'*', ' ', ' ', '*',' ','*','*',' ','*',' ','*','*',' ','*','*'},
+            {'*', ' ', ' ', ' ',' ','*','*',' ',' ',' ',' ','*','*','*','*'},
+            {'*', ' ', ' ', ' ',' ',' ',' ',' ','*',' ',' ','*',' ',' ','*'},
+            {'*', ' ', '*', '*',' ','*','*',' ','*',' ',' ','*',' ',' ','*'},
+            {'*', ' ', '*', '*',' ','*','*',' ','*',' ',' ','*',' ',' ','*'},
+            {'*', ' ', ' ', ' ',' ',' ',' ',' ','*',' ',' ',' ',' ',' ','*'},
+            {'*', '*', '*', '*','*','*','*','*','*','*','*','*','*','*','*'};
+            
+            Image image = new Image();
+            int tileSize = 32; 
+        
+            for (int i = 0; i < maze.length; i++) {
+                for (int j = 0; j < maze[i].length; j++) {
+                    switch (maze[i][j]) {
+                        case '*':
+                            g.drawImage(image.edgetopleft, j * tileSize, i * tileSize, null);
+                            break;
+                        case 'O':
+                            g.drawImage(image.edgebottomright, j * tileSize, i * tileSize, null);
+                            break;
+                        case ' ':
+                            
+                            break;
+                       
+                    }
+                }
             }
-        };
-
-
-        frame.add(pane);
+        
+            
+        }
+    }
     }
 
-
-    private static JFrame buildFrame() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(200, 200);
-        frame.setVisible(true);
-        return frame;
-    }
-
-
-}
