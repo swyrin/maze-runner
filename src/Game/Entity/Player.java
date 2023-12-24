@@ -2,11 +2,13 @@ package Game.Entity;
 
 import Engine.Object.BaseEntity;
 
+import java.awt.*;
+
 
 /**
  * Represents a character entity on the screen.
  */
-public class Player extends BaseEntity {
+public abstract class Player extends BaseEntity {
     // Animation paths for different directions
     String animationIdleUp;
     String animationIdleDown;
@@ -24,6 +26,12 @@ public class Player extends BaseEntity {
     // Current direction and state of the character
     private Direction currentDirection;
     private State currentState;
+
+    private boolean alive;
+
+    public int spriteCounter;
+
+    public int spriteNum;
 
     public Player(int x, int y) {
         super(x, y);
@@ -51,6 +59,40 @@ public class Player extends BaseEntity {
         // Set the character animation based on the initial direction and state
         updateAnimationPath();
     }
+
+
+    //creating sprites
+    public void draw(Graphics2D g2){
+        String image = null;
+        switch (getCurrentDirection()){
+            case UP, DOWN:
+                if (spriteNum == 1){
+                    image = animationRunUp;
+                }
+                if (spriteNum == 2){
+                    image = animationRunDown;
+                }
+                if (spriteNum == 3){
+                    image = animationRunLeft;
+                }
+                if (spriteNum == 4){
+                    image = animationRunRight;
+                }
+                break;
+        }
+        //still need case to flip the image when turning left or right, not figure it out yet
+    }
+
+
+    // check if alive or not
+    public void setAlive(boolean alive){
+        this.alive = alive;
+    }
+    public boolean isAlive(){
+        return alive;
+    }
+
+
 
     public void setDirection(Direction direction) {
         this.currentDirection = direction;
@@ -84,6 +126,7 @@ public class Player extends BaseEntity {
                 characterAnimation = animationHit;
                 break;
         }
+        spriteCounter++;
     }
 
     private String getIdleAnimationPath() {
@@ -135,6 +178,13 @@ public class Player extends BaseEntity {
     public void setCharacterAnimation(String characterAnimation) {
         this.characterAnimation = characterAnimation;
     }
+
+    protected void setSpeed(double v) {
+
+    }
+
+    // Override the update method to implement boss behavior
+     public abstract void update();
 
     // Placeholder for character assets
     enum Direction {

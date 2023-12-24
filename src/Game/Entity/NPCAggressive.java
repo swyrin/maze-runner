@@ -1,6 +1,12 @@
 package Game.Entity;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
 public class NPCAggressive extends Player {
+    public int spriteCounter = 0;
+    public int spriteNum = 1;
+
 
     public NPCAggressive(int x, int y) {
         super(x, y);
@@ -15,6 +21,8 @@ public class NPCAggressive extends Player {
         this.animationRunLeft = "/Player/wizzard_m_run_anim_f2.png";
         this.animationRunRight = "/Player/wizzard_m_run_anim_f3.png";
     }
+
+
 
     //   @Override
     public void update() {
@@ -51,5 +59,6 @@ public class NPCAggressive extends Player {
                 addY(-1);
             }
         }
+        spriteCounter++;
     }
 }

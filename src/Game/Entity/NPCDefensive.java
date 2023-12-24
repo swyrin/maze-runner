@@ -23,7 +23,7 @@ public class NPCDefensive extends Player {
 
         Player player = null;
 
-        // Get the player instance here (Assuming Player is a class with getX() and getY() methods)
+        // Get the player instance here
 
         int playerX = player.getX();
         int playerY = player.getY();
