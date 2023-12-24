@@ -20,7 +20,7 @@ public abstract class Player extends BaseEntity {
     String animationRunRight;
     private String characterAsset;
     private String characterAnimation;
-
+    private boolean alive = true;
     private final String animationHit;
 
     // Current direction and state of the character
@@ -35,7 +35,7 @@ public abstract class Player extends BaseEntity {
 
     public Player(int x, int y) {
         super(x, y);
-        this.characterAsset = "path/to/character/elf_m_idle_anim_f0.png";
+        this.characterAsset = "/Players/elf_m_idle_anim_f0.png";
 
         // Set animation paths for idle state
         this.animationIdleUp = "/Players/elf_m_idle_anim_f0.png";
