@@ -4,7 +4,6 @@ import Engine.Object.BaseEntity;
 
 import java.awt.*;
 
-
 /**
  * Represents a character entity on the screen.
  */
@@ -26,6 +25,7 @@ public abstract class Player extends BaseEntity {
     // Current direction and state of the character
     private Direction currentDirection;
     private State currentState;
+
 
     private boolean alive;
 
@@ -92,8 +92,6 @@ public abstract class Player extends BaseEntity {
         return alive;
     }
 
-
-
     public void setDirection(Direction direction) {
         this.currentDirection = direction;
         // Update the character animation based on the new direction and state
@@ -127,6 +125,7 @@ public abstract class Player extends BaseEntity {
                 break;
         }
         spriteCounter++;
+
     }
 
     private String getIdleAnimationPath() {
@@ -178,6 +177,7 @@ public abstract class Player extends BaseEntity {
     public void setCharacterAnimation(String characterAnimation) {
         this.characterAnimation = characterAnimation;
     }
+
 
     protected void setSpeed(double v) {
 
