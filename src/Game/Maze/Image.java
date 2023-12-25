@@ -18,18 +18,18 @@ public class Image {
     String edgemidright;
 
     public Image() {
-        edgebottomleft = "wall_edge_bottom_left.png";
-        edgebottomright = "wall_edge_bottom_right.png";
-        edgetopleft = "wall_edge_top_left.png";
-        edgetopright = "wall_edge_top_right.png";
-        edgeleft = "wall_edge_left.png";
-        edgeright = "wall_edge_right.png";
-        edgetshapebottomright = "wall_edge_tshape_bottom_right";
-        edgetshapebottomleft = "wall_edge_tshape_bottom_left.png";
-        edgetshaperight = "wall_edge_tshape_right.png";
-        edgetshapeleft = "wall_edge_tshape_left.png";
-        edgemidleft = "wall_edge_mid_left.png";
-        edgemidright = "wall_edge_mid_right.png";
+        edgebottomleft = "Wall/wall_edge_bottom_left.png";
+        edgebottomright = "Wall/wall_edge_bottom_right.png";
+        edgetopleft = "Wall/wall_edge_top_left.png";
+        edgetopright = "Wall/wall_edge_top_right.png";
+        edgeleft = "Wall/wall_edge_left.png";
+        edgeright = "Wall/wall_edge_right.png";
+        edgetshapebottomright = "Wall/wall_edge_tshape_bottom_right";
+        edgetshapebottomleft = "Wall/wall_edge_tshape_bottom_left.png";
+        edgetshaperight = "Wall/wall_edge_tshape_right.png";
+        edgetshapeleft = "Wall/wall_edge_tshape_left.png";
+        edgemidleft = "Wall/wall_edge_mid_left.png";
+        edgemidright = "Wall/wall_edge_mid_right.png";
     }
     public void render(Graphics g) {
         char[][] maze = {
