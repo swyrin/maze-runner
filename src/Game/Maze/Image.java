@@ -1,7 +1,6 @@
 package Game.Maze;
 
 import java.awt.Graphics;
-<<<<<<< Updated upstream
 
 public class Image {
     String edgebottomleft;
@@ -69,4 +68,4 @@ public class Image {
             }
         }
     }
-    }
+}
