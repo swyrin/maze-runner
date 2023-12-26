@@ -1,6 +1,7 @@
 package Game.Entity;
-import java.util.List;
 
+import javax.swing.*;
+import java.util.List;
 
 /**
  * Represents a boss entity on the screen.
@@ -12,6 +13,8 @@ public class Boss extends Player {
     private List<Player> players;
     private boolean alerted;
     private boolean playerNearBoss;
+    private double speed = 1.1;
+
 
     public Boss(int x, int y, Player targetPlayer, Boss boss, List<Player> players) {
         super(x, y);
@@ -20,7 +23,6 @@ public class Boss extends Player {
         this.players = players;
         this.alerted = false;
         this.playerNearBoss = false;
-        double speed = 1.1;
 
 
         // Set animation paths for idle state
@@ -52,7 +54,7 @@ public class Boss extends Player {
                 boss.setSpeed(1.2); // Increase speed when player is near
                 alerted = true;
             } else {
-                boss.setSpeed(1.15); // Set default speed
+                boss.setSpeed(1.1); // Set default speed
                 alerted = false;
             }
 
@@ -62,10 +64,25 @@ public class Boss extends Player {
     }
 
     private Player findNearestPlayer(int startX, int startY) {
-        // Implement DFS algorithm to find the nearest player
-        // ...
+        Player nearestPlayer = null;
+        double minDistance = Double.MAX_VALUE;
 
-        return null; // Placeholder, replace with actual implementation
+        for(Player player : players){
+            int playerX = player.getX();
+            int playerY = player.getY();
+
+            double distance = Math.sqrt(Math.pow(startX - playerX,2)+ Math.pow(startY - playerY,2));
+
+            if (distance < minDistance){
+                minDistance = distance;
+                nearestPlayer = player;
+            }
+        }
+
+        return nearestPlayer;
+    }
+    public double getSpeed(){
+        return speed;
     }
 
     private boolean isPlayerNearBoss(int playerX, int playerY) {
@@ -78,28 +95,47 @@ public class Boss extends Player {
     }
 
     private void moveBossTowardsPlayer(int playerX, int playerY) {
-        // logic to move the boss towards the player
-        // not figure out yet
+        int bossX = boss.getX();
+        int bossY = boss.getY();
+
+        int deltaX = playerX - bossX;
+        int deltaY = playerY - bossY;
+
+        if(Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (deltaX > 0) {
+                setDirection(Direction.RIGHT);
+                addX((int) (speed * deltaX / Math.abs(deltaX)));
+            } else {
+                setDirection(Direction.LEFT);
+                addX((int) (speed * deltaX / Math.abs(deltaX)));
+            }
+        }
+                else{
+                if (deltaY > 0) {
+                    setDirection(Direction.DOWN);
+                    addY((int) (speed * deltaY / Math.abs(deltaY)));
+                }
+            }
+    }
+
+    public void setSpeed(double speed){
+              this.speed = speed;
     }
 
     // Rajang when seeing hunter
     public boolean isAlerted() {
         return alerted;
     }
+
+    public boolean isPlayerNearBoss(){
+        return playerNearBoss;
+    }
+
+    public void hitWithShockTrap() {
+        // Logic to handle the shock trap effect
+        // Example: boss.paralyze(); // need to implement the paralyze method
+     }
 }
 
-
-
-  /*  @Override
-    public void update() {
-        super.update();
-
-        behavior.update();
-        if (behavior.isAlerted()) {
-            // Do something when alerted
-        }
-    }
-    
-    */
 
 

@@ -83,4 +83,12 @@ public abstract class BaseEntity {
     public int getY() {
         return y;
     }
+
+    public void setX(){
+        this.x = x;
+    }
+
+    public void setY(){
+        this.y = y;
+    }
 }
