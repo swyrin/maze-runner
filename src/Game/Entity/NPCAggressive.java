@@ -7,7 +7,6 @@ public class NPCAggressive extends Player {
     public int spriteCounter = 0;
     public int spriteNum = 1;
 
-
     public NPCAggressive(int x, int y) {
         super(x, y);
         // Set animation paths for idle state
@@ -21,7 +20,6 @@ public class NPCAggressive extends Player {
         this.animationRunLeft = "/Player/wizzard_m_run_anim_f2.png";
         this.animationRunRight = "/Player/wizzard_m_run_anim_f3.png";
     }
-
 
 
     //   @Override
@@ -59,6 +57,8 @@ public class NPCAggressive extends Player {
                 addY(-1);
             }
         }
+
         spriteCounter++;
+
     }
 }
