@@ -8,6 +8,7 @@ public class Maze {
     private final int width;
     private final int height;
     private int playerStartX, playerStartY;
+    private int keyCount;
 
     public static final char KEY_CHAR = 'K';
     public static final char KEY_CONST = 1;
@@ -16,11 +17,17 @@ public class Maze {
     public static final char PATH_CHAR = ' ';
     public static final char PATH_CONST = 3;
     public static final char PLAYER_CHAR = 'P';
+    // useless
+    // public static final char PLAYER_CONST = 4;
+    public static final char EXTRACTION_CHAR = 'E';
+    public static final char EXTRACTION_CONST = 4;
+
 
     public Maze(int width, int height) {
         this.mazeMatrix = new int[height][width];
         this.width = width;
         this.height = height;
+        this.keyCount = 0;
     }
 
     public void setPlayerStartX(int playerStartX) {
@@ -51,6 +58,18 @@ public class Maze {
         return height;
     }
 
+    public void addKey() {
+        ++this.keyCount;
+    }
+
+    public void removeKey() {
+        --this.keyCount;
+    }
+
+    public int getKeyCount() {
+        return keyCount;
+    }
+
     public void setMazeMatrix(int[][] mazeMatrix) {
         this.mazeMatrix = mazeMatrix;
     }
@@ -70,8 +89,13 @@ public class Maze {
                 mat[row][col] = WALL_CONST;
             }
 
+            if (c == EXTRACTION_CHAR) {
+                mat[row][col] = EXTRACTION_CONST;
+            }
+
             if (c == KEY_CHAR) {
                 mat[row][col] = KEY_CONST;
+                m.addKey();
             }
 
             if (c == PATH_CHAR) {
@@ -89,8 +113,6 @@ public class Maze {
                 col = 0;
             }
         }
-
-        m.setMazeMatrix(mat);
 
         return m;
     }
