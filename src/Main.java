@@ -9,7 +9,7 @@ public class Main {
         GameController controller = new GameController();
         controller.init();
 
-        TheGame game = new TheGame(new Dimension(600, 600));
+        TheGame game = new TheGame(new Dimension(1200, 800));
         MainScreen mainScreen = new MainScreen();
 
         controller.start(game, mainScreen);
