@@ -50,8 +50,6 @@ public abstract class Screen extends JPanel {
                 this.repaint();
             }
         });
-
-        this.init();
     }
 
     /**

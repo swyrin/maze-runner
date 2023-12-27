@@ -44,6 +44,7 @@ public class Window extends JFrame {
 
         this.setCurrentCanonicalScreen(anotherScreen);
         anotherScreen.setParentWindow(this);
+        anotherScreen.init();
     }
 
     /**
