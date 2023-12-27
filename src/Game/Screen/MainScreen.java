@@ -18,7 +18,6 @@ public class MainScreen extends Screen {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.black);
 
-        this.getParentWindow().setTitle("Maze Runner");
 
         JPanel buttonsContainer = new JPanel();
 
