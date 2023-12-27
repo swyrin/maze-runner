@@ -26,7 +26,6 @@ public abstract class Player extends BaseEntity {
     private Direction currentDirection;
     private State currentState;
 
-
     private boolean alive;
 
     public int spriteCounter;
@@ -83,7 +82,6 @@ public abstract class Player extends BaseEntity {
         //still need case to flip the image when turning left or right, not figure it out yet
     }
 
-
     // check if alive or not
     public void setAlive(boolean alive){
         this.alive = alive;
@@ -124,8 +122,6 @@ public abstract class Player extends BaseEntity {
                 characterAnimation = animationHit;
                 break;
         }
-        spriteCounter++;
-
     }
 
     private String getIdleAnimationPath() {
@@ -178,12 +174,20 @@ public abstract class Player extends BaseEntity {
         this.characterAnimation = characterAnimation;
     }
 
-
     protected void setSpeed(double v) {
 
     }
 
-    // Override the update method to implement boss behavior
+
+    public void hitPlayer(Player player) {
+        player.setAlive(false);
+        gameOver();
+    }
+
+    private void gameOver() {
+        System.out.println("Game over! Boss defeated the player.");
+    }
+
      public abstract void update();
 
     // Placeholder for character assets
@@ -195,12 +199,5 @@ public abstract class Player extends BaseEntity {
         IDLE, RUN, HIT
     }
 
-    // Additional methods as needed
 
-  /*  public static void main(String[] args) {
-        // Example usage
-        Player MyPlayer = new Player(0, 0);
-        MyPlayer.setDirection(Direction.DOWN); // Set the direction
-        MyPlayer.setState(State.RUN); // Set the state
-    }    */
 }
