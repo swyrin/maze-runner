@@ -14,15 +14,16 @@ import java.util.Scanner;
 public class GameScreen extends Screen {
     private final int currentMapNumber;
     private Maze currentMaze;
-    private Image wallImg, keyImg;
+    private Image wallImg, keyImg, extractionImg;
     private Player player;
 
     public GameScreen(int mapNumber) {
         this.currentMapNumber = mapNumber;
 
         try {
-            this.wallImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Wall/wall.png")));
-            this.keyImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Key/key.png")));
+            this.wallImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/wall.png")));
+            this.keyImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/key.png")));
+            this.extractionImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/extraction.png")));
         } catch (IOException e) {
             //
         }
@@ -35,22 +36,27 @@ public class GameScreen extends Screen {
     @Override
     public void render(Graphics2D g2d) {
         Maze maze = this.currentMaze;
-        int[][] map = maze.getMazeMatrix();
 
-        g2d.setColor(new Color(135, 205, 246));
+        int[][] map = maze.getMazeMatrix();
 
         // draw maze and key
         for (int i = 0; i < maze.getHeight(); i++)
             for (int j = 0; j < maze.getWidth(); j++) {
                 if (map[i][j] == Maze.WALL_CONST) {
-                    g2d.drawImage(wallImg, 10 + j * 28, 10 + i * 28, null);
+                    g2d.drawImage(this.wallImg, 10 + j * 28, 10 + i * 28, null);
                 }
 
                 if (map[i][j] == Maze.KEY_CONST) {
-                    g2d.drawImage(keyImg, 10 + j * 28, 10 + i * 28, null);
+                    g2d.drawImage(this.keyImg, 10 + j * 28, 10 + i * 28, null);
+                }
+
+                if (map[i][j] == Maze.EXTRACTION_CONST) {
+                    g2d.drawImage(this.extractionImg, 10 + j * 28, 10 + i * 28, null);
                 }
             }
 
+        // anything not relating to player movements (i.e. drawing) goes above this
+        // ======================================
         int playerX = this.player.getPostPendingX();
         int playerY = this.player.getPostPendingY();
 
@@ -62,6 +68,22 @@ public class GameScreen extends Screen {
             } else {
                 this.player.revokePending();
             }
+        // ======================================
+        // anything requires use of player movements (i.e. item gather) goes below this
+
+        playerX = this.player.getX();
+        playerY = this.player.getY();
+
+        if (map[playerY][playerX] == Maze.KEY_CONST) {
+            maze.removeKey();
+            map[playerY][playerX] = Maze.PATH_CONST;
+        }
+
+        if (map[playerY][playerX] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
+            // JOptionPane.showMessageDialog(null, "You won", "Info", JOptionPane.INFORMATION_MESSAGE);
+            // return;
+            // System.out.println("SIUUUUUUU");
+        }
 
         g2d.drawImage(this.player.getAnimImg(), 10 + player.getX() * 28, 10 + player.getY() * 28, null);
     }
