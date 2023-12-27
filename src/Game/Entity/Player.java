@@ -27,7 +27,6 @@ public abstract class Player extends BaseEntity {
     private State currentState;
 
     private boolean alive;
-
     public int spriteCounter;
 
     public int spriteNum;
