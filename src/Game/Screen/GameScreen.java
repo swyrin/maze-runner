@@ -16,7 +16,6 @@ public class GameScreen extends Screen {
     private Maze currentMaze;
     private Image wallImg, keyImg;
     private Player player;
-    private int animPictureFrame = 0;
 
     public GameScreen(int mapNumber) {
         this.currentMapNumber = mapNumber;
@@ -40,6 +39,7 @@ public class GameScreen extends Screen {
 
         g2d.setColor(new Color(135, 205, 246));
 
+        // draw maze and key
         for (int i = 0; i < maze.getHeight(); i++)
             for (int j = 0; j < maze.getWidth(); j++) {
                 if (map[i][j] == Maze.WALL_CONST) {
@@ -51,9 +51,19 @@ public class GameScreen extends Screen {
                 }
             }
 
-        g2d.drawImage(this.player.getAnimImg("idle", this.animPictureFrame), 10 + player.getX() * 28, 10 + player.getY() * 28, null);
-        this.animPictureFrame += 1;
-        this.animPictureFrame %= 4;
+        int playerX = this.player.getPostPendingX();
+        int playerY = this.player.getPostPendingY();
+
+        // I don't get how the addition of the next if prevent the console from flooding errors
+        // but since it works, it's ok.
+        if (0 <= playerY && playerY < maze.getHeight() && 0 <= playerX && playerX < maze.getWidth())
+            if (map[playerY][playerX] != Maze.WALL_CONST) {
+                this.player.move();
+            } else {
+                this.player.revokePending();
+            }
+
+        g2d.drawImage(this.player.getAnimImg(), 10 + player.getX() * 28, 10 + player.getY() * 28, null);
     }
 
     @Override
@@ -82,5 +92,10 @@ public class GameScreen extends Screen {
 
         this.currentMaze = Maze.setupFromString(mapStr);
         this.player = new Player(this.currentMaze.getPlayerStartX(), this.currentMaze.getPlayerStartY(), "lizard");
+
+        this.player.setAnimType("idle");
+        this.player.resetAnimCounter();
+
+        this.addKeyListener(this.player);
     }
 }
