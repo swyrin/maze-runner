@@ -40,7 +40,7 @@ public class Player extends BaseEntity implements KeyListener {
             String playerImgAnimPath = "{player}_m_{type}_anim_f{frame}.png";
             return ImageIO.read(
                     Files.newInputStream(
-                            Paths.get("resources/Players/" + StringHelper.toTitleCase(this.playerType) + "/" +
+                            Paths.get("resources/Player/" + StringHelper.toTitleCase(this.playerType) + "/" +
                                     playerImgAnimPath
                                             .replace("{player}", this.playerType)
                                             .replace("{type}", this.animType)
