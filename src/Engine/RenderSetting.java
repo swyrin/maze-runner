@@ -9,7 +9,7 @@ public class RenderSetting {
     /**
      * Target frames per second.
      */
-    public static int maxFps = 7500;
+    public static int maxFps = 24;
 
     /**
      * Whether to use Hardware Acceleration.
