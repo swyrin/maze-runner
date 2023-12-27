@@ -5,13 +5,17 @@ import Engine.Object.BaseEntity;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class Player extends BaseEntity {
-    private String playerType;
-    private final String playerImgAnimPath =  "{player}_m_{type}_anim_f{frame}.png";
+public class Player extends BaseEntity implements KeyListener {
+    private final String playerType;
+    private int animCounter;
+    private String animType;
+    private int speed;
 
     /**
      * Create an entity.
@@ -23,18 +27,24 @@ public class Player extends BaseEntity {
         super(x, y);
 
         this.playerType = type;
+        this.animCounter = -1;
+        this.animType = "idle";
+        this.speed = 1;
     }
 
-    public Image getAnimImg(String animType, int frame) {
+    public Image getAnimImg() {
         try {
-            frame = frame % 4; // just for safety
+            ++this.animCounter;
+            this.animCounter = this.animCounter % 4; // just for safety
+
+            String playerImgAnimPath = "{player}_m_{type}_anim_f{frame}.png";
             return ImageIO.read(
                     Files.newInputStream(
                             Paths.get("resources/Players/" + StringHelper.toTitleCase(this.playerType) + "/" +
-                                    this.playerImgAnimPath
+                                    playerImgAnimPath
                                             .replace("{player}", this.playerType)
-                                            .replace("{type}", animType)
-                                            .replace("{frame}", Integer.toString(frame))
+                                            .replace("{type}", this.animType)
+                                            .replace("{frame}", Integer.toString(this.animCounter))
                             )
                     )
             );
@@ -43,5 +53,51 @@ public class Player extends BaseEntity {
         }
 
         return null;
+    }
+
+    public void resetAnimCounter() {
+        this.animCounter = -1;
+    }
+
+    public void setAnimType(String animType) {
+        this.animType = animType;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // same logic
+        this.keyPressed(e);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        this.resetAnimCounter();
+        this.setAnimType("run");
+
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
+                this.addY(-this.speed);
+                break;
+            case KeyEvent.VK_A:
+                this.addX(-this.speed);
+                break;
+            case KeyEvent.VK_S:
+                this.addY(this.speed);
+                break;
+            case KeyEvent.VK_D:
+                this.addX(this.speed);
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        this.resetAnimCounter();
+        this.setAnimType("idle");
+        this.revokePending();
     }
 }
