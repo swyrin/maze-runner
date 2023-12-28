@@ -57,13 +57,14 @@ public class GameScreen extends Screen {
 
         // anything not relating to player movements (i.e. drawing) goes above this
         // ======================================
-        int playerX = this.player.getPostPendingX();
-        int playerY = this.player.getPostPendingY();
+        int col = this.player.getPostPendingX();
+        int row = this.player.getPostPendingY();
 
         // I don't get how the addition of the next if prevent the console from flooding errors
         // but since it works, it's ok.
-        if (0 <= playerY && playerY < maze.getHeight() && 0 <= playerX && playerX < maze.getWidth())
-            if (map[playerY][playerX] != Maze.WALL_CONST) {
+
+        if (0 <= row && row < maze.getHeight() && 0 <= col && col < maze.getWidth())
+            if (map[row][col] != Maze.WALL_CONST) {
                 this.player.move();
             } else {
                 this.player.revokePending();
@@ -71,21 +72,26 @@ public class GameScreen extends Screen {
         // ======================================
         // anything requires use of player movements (i.e. item gather) goes below this
 
-        playerX = this.player.getX();
-        playerY = this.player.getY();
+        col = this.player.getX();
+        row = this.player.getY();
 
-        if (map[playerY][playerX] == Maze.KEY_CONST) {
+        if (map[row][col] == Maze.KEY_CONST) {
             maze.removeKey();
-            map[playerY][playerX] = Maze.PATH_CONST;
+            map[row][col] = Maze.PATH_CONST;
         }
 
-        if (map[playerY][playerX] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
+        if (map[row][col] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
             // JOptionPane.showMessageDialog(null, "You won", "Info", JOptionPane.INFORMATION_MESSAGE);
             // return;
             // System.out.println("SIUUUUUUU");
         }
 
-        g2d.drawImage(this.player.getAnimImg(), 10 + player.getX() * 28, 10 + player.getY() * 28, null);
+        g2d.drawImage(
+                this.player.getAnimImg(),
+                10 + player.getX() * 28,
+                10 + player.getY() * 28,
+                null
+        );
     }
 
     @Override
