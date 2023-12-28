@@ -67,7 +67,7 @@ public class RuleScreen extends Screen {
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         backButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        startButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen()));
+        startButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new CharacterSelectScreen()));
         backButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new MainScreen()));
 
         buttonsContainer.add(startButton, BorderLayout.SOUTH);
