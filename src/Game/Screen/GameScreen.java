@@ -18,7 +18,7 @@ public class GameScreen extends Screen implements KeyListener {
     private Maze currentMaze;
     private Image wallImg, keyImg, extractionImg;
     private Player player;
-    private String characterName;
+    private final String characterName;
 
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;

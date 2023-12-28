@@ -1,4 +1,3 @@
-
 package Engine.Helper;
 
 public class StringHelper {

@@ -3,13 +3,6 @@ package Game.Entity;
 import Engine.Helper.StringHelper;
 
 public class Maze {
-    // REMINDER: NO HARDCODE!!!!
-    private int[][] mazeMatrix;
-    private final int width;
-    private final int height;
-    private int playerStartX, playerStartY;
-    private int keyCount;
-
     public static final char KEY_CHAR = 'K';
     public static final char KEY_CONST = 1;
     public static final char WALL_CHAR = 'W';
@@ -21,6 +14,12 @@ public class Maze {
     // public static final char PLAYER_CONST = 4;
     public static final char EXTRACTION_CHAR = 'E';
     public static final char EXTRACTION_CONST = 4;
+    private final int width;
+    private final int height;
+    // REMINDER: NO HARDCODE!!!!
+    private final int[][] mazeMatrix;
+    private int playerStartX, playerStartY;
+    private int keyCount;
 
 
     public Maze(int width, int height) {
@@ -28,50 +27,6 @@ public class Maze {
         this.width = width;
         this.height = height;
         this.keyCount = 0;
-    }
-
-    public void setPlayerStartX(int playerStartX) {
-        this.playerStartX = playerStartX;
-    }
-
-    public void setPlayerStartY(int playerStartY) {
-        this.playerStartY = playerStartY;
-    }
-
-    public int getPlayerStartX() {
-        return playerStartX;
-    }
-
-    public int getPlayerStartY() {
-        return playerStartY;
-    }
-
-    public int[][] getMazeMatrix() {
-        return this.mazeMatrix;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void addKey() {
-        ++this.keyCount;
-    }
-
-    public void removeKey() {
-        --this.keyCount;
-    }
-
-    public int getKeyCount() {
-        return keyCount;
-    }
-
-    public void setMazeMatrix(int[][] mazeMatrix) {
-        this.mazeMatrix = mazeMatrix;
     }
 
     public static Maze setupFromString(String str) {
@@ -115,5 +70,45 @@ public class Maze {
         }
 
         return m;
+    }
+
+    public int getPlayerStartX() {
+        return playerStartX;
+    }
+
+    public void setPlayerStartX(int playerStartX) {
+        this.playerStartX = playerStartX;
+    }
+
+    public int getPlayerStartY() {
+        return playerStartY;
+    }
+
+    public void setPlayerStartY(int playerStartY) {
+        this.playerStartY = playerStartY;
+    }
+
+    public int[][] getMazeMatrix() {
+        return this.mazeMatrix;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void addKey() {
+        ++this.keyCount;
+    }
+
+    public void removeKey() {
+        --this.keyCount;
+    }
+
+    public int getKeyCount() {
+        return keyCount;
     }
 }

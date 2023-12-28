@@ -46,6 +46,7 @@ public abstract class BaseEntity {
 
     /**
      * Add x to pending x-axis movement.
+     *
      * @param x x-axis distance.
      */
     public void addX(int x) {
@@ -54,6 +55,7 @@ public abstract class BaseEntity {
 
     /**
      * Add y to pending y-axis movement.
+     *
      * @param y y-axis distance.
      */
     public void addY(int y) {
@@ -122,6 +124,7 @@ public abstract class BaseEntity {
 
     /**
      * Get pending x-axis distance
+     *
      * @return Pending x-axis distance
      */
     public int getPendingX() {
@@ -130,6 +133,7 @@ public abstract class BaseEntity {
 
     /**
      * Get pending y-axis distance
+     *
      * @return Pending y-axis distance
      */
     public int getPendingY() {

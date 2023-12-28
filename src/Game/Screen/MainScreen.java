@@ -5,7 +5,6 @@ import Game.UI.StyleButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 
 public class MainScreen extends Screen {
     @Override

@@ -9,6 +9,7 @@ public class GameController {
 
     /**
      * Bind the starting window.
+     *
      * @param w The window to bind.
      * @return The controller.
      */
@@ -20,6 +21,7 @@ public class GameController {
 
     /**
      * Bind the starting screen. Use in conjunction with setInitialGameWindow().
+     *
      * @param s The screen to bind.
      * @return The controller.
      */
