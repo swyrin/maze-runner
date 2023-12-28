@@ -27,7 +27,7 @@ public class StyleButton extends JButton implements MouseListener {
         this.setForeground(Color.yellow);
         this.setBackground(Color.black);
         this.setOpaque(false);
-        this.setBorder(BorderFactory.createEmptyBorder());
+        this.setBorder(null);
         this.addMouseListener(this);
     }
 
