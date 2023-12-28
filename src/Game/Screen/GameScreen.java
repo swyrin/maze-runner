@@ -6,12 +6,14 @@ import Game.Entity.Player;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-public class GameScreen extends Screen {
+public class GameScreen extends Screen implements KeyListener {
     private final int currentMapNumber;
     private Maze currentMaze;
     private Image wallImg, keyImg, extractionImg;
@@ -126,5 +128,25 @@ public class GameScreen extends Screen {
         this.player.resetAnimCounter();
 
         this.addKeyListener(this.player);
+        this.addKeyListener(this);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_Q) {
+            this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
+        }
+
+        if (e.getKeyCode() == (KeyEvent.VK_ALT | KeyEvent.VK_F4)) {
+            this.getParentWindow().exit();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
     }
 }
