@@ -49,15 +49,6 @@ public class Window extends JFrame {
     }
 
     /**
-     * Get current window's dimensions.
-     *
-     * @return The dimensions.
-     */
-    public Dimension getDimension() {
-        return super.getSize();
-    }
-
-    /**
      * Get current showing screen.
      *
      * @return The current screen.
