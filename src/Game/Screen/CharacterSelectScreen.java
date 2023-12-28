@@ -2,11 +2,9 @@ package Game.Screen;
 
 import Engine.UI.Screen;
 import Game.UI.CharSelectBox;
-import Game.UI.StyleButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -37,19 +35,24 @@ public class CharacterSelectScreen extends Screen {
 
         charSelectTitle.setFont(customFont);
 
-        JTextArea tooltip = new JTextArea("Test");
-        tooltip.setEditable(false);
-        tooltip.setSize(700, 60);
-
         JPanel characterList = new JPanel();
-        characterList.setLayout(new GridLayout(1,3));
+        characterList.setLayout(new GridLayout(1, 3));
         characterList.setBackground(Color.black);
-        characterList.add(new CharSelectBox("Elf", "resources/Player/Elf/elf_m_idle_anim_f0.png", "TODO 1"));
-        characterList.add(new CharSelectBox("Lizard", "resources/Player/Lizard/lizard_m_idle_anim_f0.png", "TODO 2"));
-        characterList.add(new CharSelectBox("Wizard", "resources/Player/Elf/elf_m_idle_anim_f0.png", "TODO 3"));
+
+        CharSelectBox elfBox = new CharSelectBox("Elf");
+        CharSelectBox markZuckBox = new CharSelectBox("Lizard");
+        CharSelectBox harryBox = new CharSelectBox("Wizard");
+        characterList.add(elfBox);
+        characterList.add(markZuckBox);
+        characterList.add(harryBox);
+
+        elfBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("elf")));
+
+        markZuckBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("lizard")));
+
+        harryBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("wizard")));
 
         this.add(charSelectTitle);
         this.add(characterList);
-        // this.add(tooltip);
     }
 }

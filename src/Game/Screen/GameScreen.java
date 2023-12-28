@@ -16,9 +16,11 @@ public class GameScreen extends Screen {
     private Maze currentMaze;
     private Image wallImg, keyImg, extractionImg;
     private Player player;
+    private String characterName;
 
-    public GameScreen(int mapNumber) {
+    public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
+        this.characterName = character.toLowerCase();
 
         try {
             this.wallImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/wall.png")));
@@ -29,8 +31,8 @@ public class GameScreen extends Screen {
         }
     }
 
-    public GameScreen() {
-        this(0);
+    public GameScreen(String character) {
+        this(character, 0);
     }
 
     @Override
@@ -118,7 +120,7 @@ public class GameScreen extends Screen {
         }
 
         this.currentMaze = Maze.setupFromString(mapStr);
-        this.player = new Player(this.currentMaze.getPlayerStartX(), this.currentMaze.getPlayerStartY(), "lizard");
+        this.player = new Player(this.currentMaze.getPlayerStartX(), this.currentMaze.getPlayerStartY(), this.characterName);
 
         this.player.setAnimType("idle");
         this.player.resetAnimCounter();

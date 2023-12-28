@@ -32,8 +32,7 @@ public class MainScreen extends Screen {
         ruleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // startButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new CharacterSelectScreen()));
-        startButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen()));
+        startButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new CharacterSelectScreen()));
 
         ruleButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new RuleScreen()));
 
