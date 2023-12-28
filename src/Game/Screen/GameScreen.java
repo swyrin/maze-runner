@@ -62,7 +62,6 @@ public class GameScreen extends Screen {
 
         // I don't get how the addition of the next if prevent the console from flooding errors
         // but since it works, it's ok.
-
         if (0 <= row && row < maze.getHeight() && 0 <= col && col < maze.getWidth())
             if (map[row][col] != Maze.WALL_CONST) {
                 this.player.move();
@@ -83,7 +82,7 @@ public class GameScreen extends Screen {
         if (map[row][col] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
             // JOptionPane.showMessageDialog(null, "You won", "Info", JOptionPane.INFORMATION_MESSAGE);
             // return;
-            // System.out.println("SIUUUUUUU");
+            System.out.println("SIUUUUUUU");
         }
 
         g2d.drawImage(
