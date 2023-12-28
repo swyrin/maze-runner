@@ -103,8 +103,8 @@ public class Maze {
             }
 
             if (c == PLAYER_CHAR) {
-                m.setPlayerStartX(row);
-                m.setPlayerStartY(col);
+                m.setPlayerStartX(col);
+                m.setPlayerStartY(row);
             }
 
             col++;
