@@ -2,6 +2,8 @@ package Game.Entity;
 
 import Engine.Helper.StringHelper;
 
+import java.util.ArrayList;
+
 public class Maze {
     public static final char KEY_CHAR = 'K';
     public static final char KEY_CONST = 1;
@@ -10,23 +12,23 @@ public class Maze {
     public static final char PATH_CHAR = ' ';
     public static final char PATH_CONST = 3;
     public static final char PLAYER_CHAR = 'P';
-    // useless
-    // public static final char PLAYER_CONST = 4;
     public static final char EXTRACTION_CHAR = 'E';
     public static final char EXTRACTION_CONST = 4;
+    public static final char ENEMY_CHAR = 'N';
     private final int width;
     private final int height;
     // REMINDER: NO HARDCODE!!!!
     private final int[][] mazeMatrix;
     private int playerStartX, playerStartY;
     private int keyCount;
-
+    private final ArrayList<Knight> knightList;
 
     public Maze(int width, int height) {
         this.mazeMatrix = new int[height][width];
         this.width = width;
         this.height = height;
         this.keyCount = 0;
+        this.knightList = new ArrayList<>();
     }
 
     public static Maze setupFromString(String str) {
@@ -60,6 +62,11 @@ public class Maze {
             if (c == PLAYER_CHAR) {
                 m.setPlayerStartX(col);
                 m.setPlayerStartY(row);
+            }
+
+            if (c == ENEMY_CHAR) {
+                m.getKnightList().add(new Knight(col, row));
+                mat[row][col] = PATH_CONST;
             }
 
             col++;
@@ -110,5 +117,9 @@ public class Maze {
 
     public int getKeyCount() {
         return keyCount;
+    }
+
+    public ArrayList<Knight> getKnightList() {
+        return knightList;
     }
 }

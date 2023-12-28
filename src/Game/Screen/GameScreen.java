@@ -1,16 +1,19 @@
 package Game.Screen;
 
 import Engine.UI.Screen;
+import Game.Entity.Knight;
 import Game.Entity.Maze;
 import Game.Entity.Player;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Random;
 import java.util.Scanner;
 
 public class GameScreen extends Screen implements KeyListener {
@@ -19,6 +22,7 @@ public class GameScreen extends Screen implements KeyListener {
     private Image wallImg, keyImg, extractionImg;
     private Player player;
     private final String characterName;
+    private volatile boolean loseShown;
 
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
@@ -43,7 +47,7 @@ public class GameScreen extends Screen implements KeyListener {
 
         int[][] map = maze.getMazeMatrix();
 
-        // draw maze and key
+        // draw maze stuffs (maze itself, enemy, keys)
         for (int i = 0; i < maze.getHeight(); i++)
             for (int j = 0; j < maze.getWidth(); j++) {
                 if (map[i][j] == Maze.WALL_CONST) {
@@ -86,7 +90,7 @@ public class GameScreen extends Screen implements KeyListener {
         if (map[row][col] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
             // JOptionPane.showMessageDialog(null, "You won", "Info", JOptionPane.INFORMATION_MESSAGE);
             // return;
-            System.out.println("SIUUUUUUU");
+            // System.out.println("SIUUUUUUU");
         }
 
         g2d.drawImage(
@@ -95,6 +99,38 @@ public class GameScreen extends Screen implements KeyListener {
                 10 + player.getY() * 28,
                 null
         );
+
+        for (Knight knight: maze.getKnightList()) {
+            knight.addX(new Random().nextInt(-1, 2));
+            knight.addY(new Random().nextInt(-1, 2));
+
+            int kcol = knight.getPostPendingX();
+            int krow = knight.getPostPendingY();
+
+            if (0 <= krow && krow < maze.getHeight() && 0 <= kcol && kcol < maze.getWidth())
+                if (map[krow][kcol] != Maze.WALL_CONST) {
+                    knight.move();
+                } else {
+                    knight.revokePending();
+                    continue;
+                }
+
+            g2d.drawImage(
+                    knight.getAnimImg(),
+                    10 + knight.getX() * 28,
+                    10 + knight.getY() * 28,
+                    null
+            );
+
+            if (this.player.isCollideWith(knight)) {
+                this.getRenderer().cancel();
+                if (!loseShown) {
+                    JOptionPane.showMessageDialog(null, "You lose");
+                    loseShown = true;
+                }
+                this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
+            }
+        }
     }
 
     @Override
