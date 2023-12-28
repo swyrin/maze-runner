@@ -79,17 +79,21 @@ public class Player extends BaseEntity implements KeyListener {
         this.setAnimType("run");
 
         switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
-                this.addY(-this.speed);
+                if (this.getPendingY() == 0) this.addY(-this.speed);
                 break;
+            case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
-                this.addX(-this.speed);
+                if (this.getPendingX() == 0) this.addX(-this.speed);
                 break;
+            case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
-                this.addY(this.speed);
+                if (this.getPendingY() == 0) this.addY(this.speed);
                 break;
+            case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                this.addX(this.speed);
+                if (this.getPendingX() == 0) this.addX(this.speed);
                 break;
         }
     }

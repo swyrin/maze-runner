@@ -121,6 +121,22 @@ public abstract class BaseEntity {
     }
 
     /**
+     * Get pending x-axis distance
+     * @return Pending x-axis distance
+     */
+    public int getPendingX() {
+        return pendingX;
+    }
+
+    /**
+     * Get pending y-axis distance
+     * @return Pending y-axis distance
+     */
+    public int getPendingY() {
+        return pendingY;
+    }
+
+    /**
      * Get current post-pending-addition x-axis position.
      *
      * @return The post-pending-addition x-axis position.
