@@ -37,10 +37,7 @@ public class MainScreen extends Screen {
 
         ruleButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new RuleScreen()));
 
-        exitButton.addActionListener(e -> {
-            JFrame currentWindow = this.getParentWindow();
-            currentWindow.dispatchEvent(new WindowEvent(currentWindow, WindowEvent.WINDOW_CLOSING));
-        });
+        exitButton.addActionListener(e -> this.getParentWindow().exit());
 
         buttonsContainer.add(startButton, BorderLayout.SOUTH);
         buttonsContainer.add(ruleButton, BorderLayout.SOUTH);

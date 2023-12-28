@@ -2,6 +2,7 @@ package Engine.UI;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 
 /**
  * The window to be shown.
@@ -74,5 +75,12 @@ public class Window extends JFrame {
      */
     public void setCurrentCanonicalScreen(Screen currentCanonicalScreen) {
         this.currentCanonicalScreen = currentCanonicalScreen;
+    }
+
+    /**
+     * Exit the window.
+     */
+    public void exit() {
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
     }
 }
