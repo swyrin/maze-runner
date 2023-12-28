@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,7 +23,7 @@ public class GameScreen extends Screen implements KeyListener {
     private Image wallImg, keyImg, extractionImg;
     private Player player;
     private final String characterName;
-    private volatile boolean loseShown;
+    private volatile boolean loseShown = false, wonShow = false;
 
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
@@ -88,9 +89,16 @@ public class GameScreen extends Screen implements KeyListener {
         }
 
         if (map[row][col] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
-            // JOptionPane.showMessageDialog(null, "You won", "Info", JOptionPane.INFORMATION_MESSAGE);
-            // return;
-            // System.out.println("SIUUUUUUU");
+            if (this.hasNextMap()) {
+                this.getParentWindow().replaceCurrentScreenWith(new GameScreen(this.characterName, this.currentMapNumber + 1));
+            } else {
+                this.getRenderer().cancel();
+                if (!wonShow) {
+                    JOptionPane.showMessageDialog(null, "You won");
+                    wonShow = true;
+                }
+                this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
+            }
         }
 
         g2d.drawImage(
@@ -108,7 +116,10 @@ public class GameScreen extends Screen implements KeyListener {
             int krow = knight.getPostPendingY();
 
             if (0 <= krow && krow < maze.getHeight() && 0 <= kcol && kcol < maze.getWidth())
-                if (map[krow][kcol] != Maze.WALL_CONST) {
+                if (map[krow][kcol] != Maze.WALL_CONST
+                        && map[krow][kcol] != Maze.KEY_CONST
+                        && map[krow][kcol] != Maze.EXTRACTION_CONST
+                ) {
                     knight.move();
                 } else {
                     knight.revokePending();
@@ -131,6 +142,11 @@ public class GameScreen extends Screen implements KeyListener {
                 this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
             }
         }
+    }
+
+    private boolean hasNextMap() {
+        File f = new File("resources/Map/map" + (this.currentMapNumber + 1) + ".txt");
+        return !f.isDirectory() && f.exists();
     }
 
     @Override
