@@ -3,6 +3,7 @@ package Engine.UI;
 import Engine.FpsMeasure;
 import Engine.Helper.RenderHelper;
 import Engine.RenderSetting;
+import Engine.Renderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,12 @@ public abstract class Screen extends JPanel {
      * The FPS counter thread.
      */
     protected final FpsMeasure fpsMeasure;
+
+    /**
+     * The task in task of rendering.
+     */
+    private final Renderer renderer;
+
     /**
      * The thread in charge of the rendering.
      */
@@ -33,6 +40,7 @@ public abstract class Screen extends JPanel {
      */
     private Window parentWindow;
 
+
     /**
      * Create the screen with the desired fps.
      *
@@ -44,11 +52,8 @@ public abstract class Screen extends JPanel {
         this.onDemandRender = false;
         this.targetFps = targetFps;
         this.fpsMeasure = new FpsMeasure();
-        this.renderThread = new Thread(() -> {
-            while (true) {
-                this.repaint();
-            }
-        });
+        this.renderer = new Renderer(this);
+        this.renderThread = new Thread(this.renderer);
     }
 
     /**
@@ -148,6 +153,10 @@ public abstract class Screen extends JPanel {
     public void dispose() {
         if (this.renderThread.isAlive()) this.renderThread.interrupt();
         if (this.fpsMeasure.isAlive()) this.fpsMeasure.interrupt();
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
     }
 
     /**
