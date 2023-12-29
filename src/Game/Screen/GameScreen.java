@@ -151,6 +151,14 @@ public class GameScreen extends Screen implements KeyListener {
 
     @Override
     public void init() {
+        try {
+            this.wallImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/wall.png")));
+            this.keyImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/key.png")));
+            this.extractionImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/extraction.png")));
+        } catch (IOException e) {
+            //
+        }
+
         this.setBackground(Color.black);
         this.getParentWindow().setSize(720, 600);
 
@@ -178,6 +186,7 @@ public class GameScreen extends Screen implements KeyListener {
 
         this.player.setAnimType("idle");
         this.player.resetAnimCounter();
+        this.player.setMaze(this.currentMaze);
 
         this.addKeyListener(this.player);
         this.addKeyListener(this);
