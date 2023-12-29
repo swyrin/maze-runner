@@ -7,10 +7,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class CharSelectBox extends StyleButton {
+public class CharSelectButton extends StyleButton {
     private Image charImg;
 
-    public CharSelectBox(String name) {
+    public CharSelectButton(String name) {
         super(name);
 
         try {
