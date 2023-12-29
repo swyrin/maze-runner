@@ -32,7 +32,7 @@ public class GameScreen extends Screen implements KeyListener {
     // to balance the game, an (moveWeight)-stay:(10-mW)-move weightage will be applied.
     // more details in the usage of this code.
     private int listIndex;
-    private final int moveWeight = 7;
+    private final double moveWeight = 9.5f;
 
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
