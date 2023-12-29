@@ -133,12 +133,13 @@ public class Maze {
 
     /**
      * Find the path using a home-made A* implementation.
+     * This is a deterministic algorithm by the way.
      *
-     * @param fromX
-     * @param fromY
-     * @param toX
-     * @param toY
-     * @return
+     * @param fromX Starting x-position
+     * @param fromY Starting y-position
+     * @param toX Target x-position
+     * @param toY Target y-position
+     * @return A list consisting of coordinates.
      */
     public ArrayList<CoordinatePair> findPath(int fromX, int fromY, int toX, int toY) {
         Queue<CoordinatePair> openList = new LinkedList<>();
@@ -162,8 +163,10 @@ public class Maze {
                 int toVisitY = toY;
                 ArrayList<CoordinatePair> result = new ArrayList<>();
 
+                // add target
                 result.add(new CoordinatePair(toX, toY));
 
+                // trace
                 while (parent[toVisitY][toVisitX] != null) {
                     CoordinatePair parentLocation = parent[toVisitY][toVisitX];
 
@@ -173,6 +176,7 @@ public class Maze {
                     toVisitY = parentLocation.getY();
                 }
 
+                // I hate java, there is no even result.reverse()
                 Collections.reverse(result);
 
                 return result;
@@ -201,10 +205,17 @@ public class Maze {
             }
         }
 
-        // impossible case, but still
+        // impossible case, but still.
         return null;
     }
 
+    /**
+     * Find the path using a home-made A* implementation.
+     * This is a deterministic algorithm by the way.
+     * @param from Current {@link BaseEntity}.
+     * @param to Target  {@link BaseEntity}.
+     * @return A list consisting of coordinates.
+     */
     public ArrayList<CoordinatePair> findPath(BaseEntity from, BaseEntity to) {
         return findPath(from.getX(), from.getY(), to.getX(), to.getY());
     }
