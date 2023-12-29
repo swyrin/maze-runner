@@ -1,6 +1,7 @@
 package Game.Screen;
 
 import Engine.UI.Screen;
+import Game.Core.ClockTimer;
 import Game.Core.Maze;
 import Game.Entity.Knight;
 import Game.Entity.Player;
@@ -37,6 +38,9 @@ public class GameScreen extends Screen implements KeyListener {
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
         this.characterName = character.toLowerCase();
+
+        // first map? start timer
+        if (mapNumber == 0) ClockTimer.start();
     }
 
     public GameScreen(String character) {
@@ -97,8 +101,8 @@ public class GameScreen extends Screen implements KeyListener {
                 if (!wonShow) {
                     wonShow = true;
                     this.getRenderer().cancel();
-                    JOptionPane.showMessageDialog(null, "You won");
-                    this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
+                    ClockTimer.stop();
+                    this.getParentWindow().replaceCurrentScreenWith(new WinScreen());
                 }
             }
         }
@@ -142,8 +146,7 @@ public class GameScreen extends Screen implements KeyListener {
                 if (!loseShown) {
                     loseShown = true;
                     this.getRenderer().cancel();
-                    JOptionPane.showMessageDialog(null, "You lose");
-                    this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
+                    this.getParentWindow().replaceCurrentScreenWith(new LoseScreen());
                 }
             }
         }
