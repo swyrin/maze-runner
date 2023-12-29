@@ -1,8 +1,8 @@
 package Game.Screen;
 
 import Engine.UI.Screen;
-import Game.Entity.Knight;
 import Game.Core.Maze;
+import Game.Entity.Knight;
 import Game.Entity.Player;
 import Game.Utility.CoordinatePair;
 
@@ -21,18 +21,18 @@ import java.util.Scanner;
 
 public class GameScreen extends Screen implements KeyListener {
     private final int currentMapNumber;
+    private final String characterName;
+    private final double moveWeight = 9.5f;
     private Maze currentMaze;
     private Image wallImg, keyImg, extractionImg;
     private Player player;
-    private final String characterName;
     private volatile boolean loseShown = false, wonShow = false;
-
     // position index in path tracing.
     // will be reset if the player moves, and increments when the player stands still.
     // to balance the game, an (moveWeight)-stay:(10-mW)-move weightage will be applied.
     // more details in the usage of this code.
     private int listIndex;
-    private final double moveWeight = 9.5f;
+    private ArrayList<CoordinatePair> path;
 
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
@@ -95,10 +95,11 @@ public class GameScreen extends Screen implements KeyListener {
             } else {
                 this.getRenderer().cancel();
                 if (!wonShow) {
-                    JOptionPane.showMessageDialog(null, "You won");
                     wonShow = true;
+                    this.getRenderer().cancel();
+                    JOptionPane.showMessageDialog(null, "You won");
+                    this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
                 }
-                this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
             }
         }
 
@@ -110,16 +111,23 @@ public class GameScreen extends Screen implements KeyListener {
         );
 
         this.listIndex = this.player.isHasMoved() ? 0 : this.listIndex + 1;
+        double randomFactor = new Random().nextDouble(1, 10 + 1);
 
-        for (Knight knight: maze.getKnightList()) {
-            ArrayList<CoordinatePair> path = maze.findPath(knight, player);
+        for (Knight knight : maze.getKnightList()) {
+            if (path != null) {
+                if (randomFactor <= this.moveWeight) {
+                    path = maze.findPath(knight, player);
+                }
+            } else
+                path = maze.findPath(knight, player);
+
             CoordinatePair coordinate;
 
-            int randomFactor = new Random().nextInt(1, 10 + 1);
+            this.listIndex %= path.size();
 
             if (randomFactor <= this.moveWeight) this.listIndex = 0;
 
-            coordinate = path.get(Math.min(this.listIndex, path.size() - 1));
+            coordinate = path.get(this.listIndex);
 
             knight.moveTo(coordinate.getX(), coordinate.getY());
 
@@ -132,11 +140,11 @@ public class GameScreen extends Screen implements KeyListener {
 
             if (this.player.isCollideWith(knight)) {
                 if (!loseShown) {
-                    // JOptionPane.showMessageDialog(null, "You lose");
                     loseShown = true;
                     this.getRenderer().cancel();
+                    JOptionPane.showMessageDialog(null, "You lose");
+                    this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
                 }
-                this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
             }
         }
     }
