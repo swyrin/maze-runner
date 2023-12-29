@@ -1,8 +1,14 @@
-package Game.Entity;
+package Game.Core;
 
 import Engine.Helper.StringHelper;
+import Engine.Object.BaseEntity;
+import Game.Entity.Knight;
+import Game.Utility.CoordinatePair;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Maze {
     public static final char KEY_CHAR = 'K';
@@ -65,7 +71,9 @@ public class Maze {
             }
 
             if (c == ENEMY_CHAR) {
-                m.getKnightList().add(new Knight(col, row));
+                Knight k = new Knight(col, row);
+                k.setMaze(m);
+                m.getKnightList().add(k);
                 mat[row][col] = PATH_CONST;
             }
 
@@ -121,5 +129,82 @@ public class Maze {
 
     public ArrayList<Knight> getKnightList() {
         return knightList;
+    }
+
+    /**
+     * Find the path using a home-made A* implementation.
+     * @param fromX
+     * @param fromY
+     * @param toX
+     * @param toY
+     * @return
+     */
+    public ArrayList<CoordinatePair> findPath(int fromX, int fromY, int toX, int toY) {
+        Queue<CoordinatePair> openList = new LinkedList<>();
+        boolean[][] isVisited = new boolean[getHeight()][getWidth()];
+
+        openList.add(new CoordinatePair(fromX, fromY));
+        isVisited[fromY][fromX] = true;
+
+        // parent[i][j] = the location node before (j, i) is visited
+        CoordinatePair[][] parent = new CoordinatePair[getHeight()][getWidth()];
+
+        while (!openList.isEmpty()) {
+            CoordinatePair coordinates = openList.poll();
+
+            int currentX = coordinates.getX();
+            int currentY = coordinates.getY();
+
+            // we found the way.
+            if (currentX == toX && currentY == toY) {
+                int toVisitX = toX;
+                int toVisitY = toY;
+                ArrayList<CoordinatePair> result = new ArrayList<>();
+
+                result.add(new CoordinatePair(toX, toY));
+
+                while (parent[toVisitY][toVisitX] != null) {
+                    CoordinatePair parentLocation = parent[toVisitY][toVisitX];
+
+                    result.add(parentLocation);
+
+                    toVisitX = parentLocation.getX();
+                    toVisitY = parentLocation.getY();
+                }
+
+                Collections.reverse(result);
+
+                return result;
+            }
+
+            for (int dx = -1; dx <= 1; ++dx) {
+                for (int dy = -1; dy <= 1; ++dy) {
+                    if (dx == 0 && dy == 0) continue;
+
+                    int todoX = currentX + dx;
+                    int todoY = currentY + dy;
+
+                    // if OOB, next.
+                    if (!(0 <= todoX && todoX < this.getWidth() && 0 <= todoY && todoY < this.getHeight())) continue;
+
+                    // if not a path, next.
+                    if (this.mazeMatrix[todoY][todoX] == Maze.WALL_CONST) continue;
+
+                    // if visited, next.
+                    if (isVisited[todoY][todoX]) continue;
+
+                    openList.add(new CoordinatePair(todoX, todoY));
+                    isVisited[todoY][todoX] = true;
+                    parent[todoY][todoX] = new CoordinatePair(currentX, currentY);
+                }
+            }
+        }
+
+        // impossible case, but still
+        return null;
+    }
+
+    public ArrayList<CoordinatePair> findPath(BaseEntity from, BaseEntity to) {
+        return findPath(from.getX(), from.getY(), to.getX(), to.getY());
     }
 }
