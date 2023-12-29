@@ -1,5 +1,6 @@
 package Game.Screen;
 
+import Engine.Loader.FontLoader;
 import Engine.UI.Screen;
 import Game.UI.StyleButton;
 
@@ -24,15 +25,8 @@ public class RuleScreen extends Screen {
         JLabel ruleTitle = new JLabel("RULE");
         ruleTitle.setForeground(Color.yellow);
         ruleTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        Path fontPath = Paths.get("resources/Font/pixeloid_mono.ttf");
-        Font customFont;
 
-        try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, Files.newInputStream(fontPath)).deriveFont(57f);
-        } catch (IOException | FontFormatException e) {
-            customFont = Font.getFont(Font.MONOSPACED);
-        }
-
+        Font customFont = FontLoader.createFont("pixeloid_mono", 57f);
         ruleTitle.setFont(customFont);
 
         JTextArea textArea = new JTextArea();

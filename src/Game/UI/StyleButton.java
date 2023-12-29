@@ -1,5 +1,7 @@
 package Game.UI;
 
+import Engine.Loader.FontLoader;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -12,16 +14,8 @@ public class StyleButton extends JButton implements MouseListener {
     public StyleButton(String str) {
         super(str);
 
-        try {
-            Font customFont = Font.createFont(
-                    Font.TRUETYPE_FONT,
-                    Files.newInputStream(Paths.get("resources/Font/pixeloid_mono.ttf"))
-            ).deriveFont(30f);
-
-            this.setFont(customFont);
-        } catch (FontFormatException | IOException e) {
-            //
-        }
+        Font customFont = FontLoader.createFont("pixeloid_mono", 30f);
+        this.setFont(customFont);
 
         this.setForeground(Color.yellow);
         this.setBackground(Color.black);
