@@ -34,6 +34,13 @@ public abstract class BaseEntity {
         return Math.sqrt(xDisplacement * xDisplacement + yDisplacement * yDisplacement);
     }
 
+    public double moveTo(int x, int y) {
+        this.x = x;
+        this.y = y;
+
+        return 0;
+    }
+
     /**
      * Move the entity after applying a set of pending displacement(s)
      */
