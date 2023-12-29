@@ -2,8 +2,9 @@ package Game.Screen;
 
 import Engine.UI.Screen;
 import Game.Entity.Knight;
-import Game.Entity.Maze;
+import Game.Core.Maze;
 import Game.Entity.Player;
+import Game.Utility.CoordinatePair;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -25,17 +27,16 @@ public class GameScreen extends Screen implements KeyListener {
     private final String characterName;
     private volatile boolean loseShown = false, wonShow = false;
 
+    // position index in path tracing.
+    // will be reset if the player moves, and increments when the player stands still.
+    // to balance the game, an (moveWeight)-stay:(10-mW)-move weightage will be applied.
+    // more details in the usage of this code.
+    private int listIndex;
+    private final int moveWeight = 7;
+
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
         this.characterName = character.toLowerCase();
-
-        try {
-            this.wallImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/wall.png")));
-            this.keyImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/key.png")));
-            this.extractionImg = ImageIO.read(Files.newInputStream(Paths.get("resources/Playground/extraction.png")));
-        } catch (IOException e) {
-            //
-        }
     }
 
     public GameScreen(String character) {
@@ -105,39 +106,35 @@ public class GameScreen extends Screen implements KeyListener {
                 this.player.getAnimImg(),
                 10 + player.getX() * 28,
                 10 + player.getY() * 28,
-                null
+                this
         );
 
+        this.listIndex = this.player.isHasMoved() ? 0 : this.listIndex + 1;
+
         for (Knight knight: maze.getKnightList()) {
-            knight.addX(new Random().nextInt(-1, 2));
-            knight.addY(new Random().nextInt(-1, 2));
+            ArrayList<CoordinatePair> path = maze.findPath(knight, player);
+            CoordinatePair coordinate;
 
-            int kcol = knight.getPostPendingX();
-            int krow = knight.getPostPendingY();
+            int randomFactor = new Random().nextInt(1, 10 + 1);
 
-            if (0 <= krow && krow < maze.getHeight() && 0 <= kcol && kcol < maze.getWidth())
-                if (map[krow][kcol] != Maze.WALL_CONST
-                        && map[krow][kcol] != Maze.KEY_CONST
-                        && map[krow][kcol] != Maze.EXTRACTION_CONST
-                ) {
-                    knight.move();
-                } else {
-                    knight.revokePending();
-                    continue;
-                }
+            if (randomFactor <= this.moveWeight) this.listIndex = 0;
+
+            coordinate = path.get(Math.min(this.listIndex, path.size() - 1));
+
+            knight.moveTo(coordinate.getX(), coordinate.getY());
 
             g2d.drawImage(
                     knight.getAnimImg(),
-                    10 + knight.getX() * 28,
-                    10 + knight.getY() * 28,
-                    null
+                    10 + coordinate.getX() * 28,
+                    10 + coordinate.getY() * 28,
+                    this
             );
 
             if (this.player.isCollideWith(knight)) {
-                this.getRenderer().cancel();
                 if (!loseShown) {
-                    JOptionPane.showMessageDialog(null, "You lose");
+                    // JOptionPane.showMessageDialog(null, "You lose");
                     loseShown = true;
+                    this.getRenderer().cancel();
                 }
                 this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
             }

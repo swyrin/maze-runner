@@ -2,6 +2,7 @@ package Game.Entity;
 
 import Engine.Helper.StringHelper;
 import Engine.Object.BaseEntity;
+import Game.Core.Maze;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -16,6 +17,11 @@ public class Player extends BaseEntity implements KeyListener {
     private int animCounter;
     private String animType;
     private int speed;
+    private Maze maze;
+    // if the player is moved, the knight will use the first available path
+    // if the player stands still, the knight will use the next-next+1-next+2 position in path tracing
+    // view listIndex in GameScreen for more information
+    private boolean hasMoved;
 
     /**
      * Create an entity.
@@ -30,6 +36,7 @@ public class Player extends BaseEntity implements KeyListener {
         this.animCounter = -1;
         this.animType = "idle";
         this.speed = 1;
+        this.hasMoved = false;
     }
 
     public Image getAnimImg() {
@@ -70,7 +77,9 @@ public class Player extends BaseEntity implements KeyListener {
     @Override
     public void keyTyped(KeyEvent e) {
         // same logic
+        this.hasMoved = true;
         this.keyPressed(e);
+        this.hasMoved = false;
     }
 
     @Override
@@ -96,6 +105,8 @@ public class Player extends BaseEntity implements KeyListener {
                 if (this.getPendingX() == 0) this.addX(this.speed);
                 break;
         }
+
+        this.hasMoved = true;
     }
 
     @Override
@@ -103,5 +114,18 @@ public class Player extends BaseEntity implements KeyListener {
         this.resetAnimCounter();
         this.setAnimType("idle");
         this.revokePending();
+        this.hasMoved = false;
+    }
+
+    public void setMaze(Maze maze) {
+        this.maze = maze;
+    }
+
+    public Maze getMaze() {
+        return maze;
+    }
+
+    public boolean isHasMoved() {
+        return hasMoved;
     }
 }
