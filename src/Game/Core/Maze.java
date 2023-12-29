@@ -25,9 +25,9 @@ public class Maze {
     private final int height;
     // REMINDER: NO HARDCODE!!!!
     private final int[][] mazeMatrix;
+    private final ArrayList<Knight> knightList;
     private int playerStartX, playerStartY;
     private int keyCount;
-    private final ArrayList<Knight> knightList;
 
     public Maze(int width, int height) {
         this.mazeMatrix = new int[height][width];
@@ -133,6 +133,7 @@ public class Maze {
 
     /**
      * Find the path using a home-made A* implementation.
+     *
      * @param fromX
      * @param fromY
      * @param toX

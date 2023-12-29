@@ -117,12 +117,12 @@ public class Player extends BaseEntity implements KeyListener {
         this.hasMoved = false;
     }
 
-    public void setMaze(Maze maze) {
-        this.maze = maze;
-    }
-
     public Maze getMaze() {
         return maze;
+    }
+
+    public void setMaze(Maze maze) {
+        this.maze = maze;
     }
 
     public boolean isHasMoved() {

@@ -17,8 +17,7 @@ public class Renderer implements Runnable {
         }
     }
 
-    public void cancel()
-    {
+    public void cancel() {
         isInterrupted = true;
     }
 }
