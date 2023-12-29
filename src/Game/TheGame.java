@@ -12,5 +12,7 @@ public class TheGame extends Window {
      */
     public TheGame(Dimension dimension) {
         super(dimension);
+
+        setTitle("Maze Runner");
     }
 }

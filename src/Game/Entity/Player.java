@@ -1,202 +1,107 @@
 package Game.Entity;
 
+import Engine.Helper.StringHelper;
 import Engine.Object.BaseEntity;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
-/**
- * Represents a character entity on the screen.
- */
-public abstract class Player extends BaseEntity {
-    // Animation paths for different directions
-    String animationIdleUp;
-    String animationIdleDown;
-    String animationIdleLeft;
-    String animationIdleRight;
-    String animationRunUp;
-    String animationRunDown;
-    String animationRunLeft;
-    String animationRunRight;
-    private String characterAsset;
-    private String characterAnimation;
-    private boolean alive = true;
-    private final String animationHit;
+public class Player extends BaseEntity implements KeyListener {
+    private final String playerType;
+    private int animCounter;
+    private String animType;
+    private int speed;
 
-    // Current direction and state of the character
-    private Direction currentDirection;
-    private State currentState;
-
-    private boolean alive;
-    public int spriteCounter;
-
-    public int spriteNum;
-
-    public Player(int x, int y) {
+    /**
+     * Create an entity.
+     *
+     * @param x The initial x-axis position.
+     * @param y The initial y-axis position.
+     */
+    public Player(int x, int y, String type) {
         super(x, y);
-        this.characterAsset = "/Players/elf_m_idle_anim_f0.png";
 
-        // Set animation paths for idle state
-        this.animationIdleUp = "/Players/elf_m_idle_anim_f0.png";
-        this.animationIdleDown = "/Players/elf_m_idle_anim_f1.png";
-        this.animationIdleLeft = "/Players/elf_m_idle_anim_f2.png";
-        this.animationIdleRight = "/Players/elf_m_idle_anim_f3.png";
-
-        // Set animation paths for running state
-        this.animationRunUp = "/Players/elf_m_run_anim_f0.png";
-        this.animationRunDown = "/Players/elf_m_run_anim_f1.png";
-        this.animationRunLeft = "/Players/elf_m_run_anim_f2.png";
-        this.animationRunRight = "/Players/elf_m_run_anim_f3.png";
-
-        // Set animation path for being hit state
-        this.animationHit = "/Players/elf_m_hit_anim_f0.png";
-
-        // Set the initial direction and state to, for example, right and idle
-        this.currentDirection = Direction.RIGHT;
-        this.currentState = State.IDLE;
-
-        // Set the character animation based on the initial direction and state
-        updateAnimationPath();
+        this.playerType = type;
+        this.animCounter = -1;
+        this.animType = "idle";
+        this.speed = 1;
     }
 
+    public Image getAnimImg() {
+        try {
+            ++this.animCounter;
+            this.animCounter = this.animCounter % 4; // just for safety
 
-    //creating sprites
-    public void draw(Graphics2D g2){
-        String image = null;
-        switch (getCurrentDirection()){
-            case UP, DOWN:
-                if (spriteNum == 1){
-                    image = animationRunUp;
-                }
-                if (spriteNum == 2){
-                    image = animationRunDown;
-                }
-                if (spriteNum == 3){
-                    image = animationRunLeft;
-                }
-                if (spriteNum == 4){
-                    image = animationRunRight;
-                }
-                break;
+            String playerImgAnimPath = "{player}_m_{type}_anim_f{frame}.png";
+            return ImageIO.read(
+                    Files.newInputStream(
+                            Paths.get("resources/Player/" + StringHelper.toTitleCase(this.playerType) + "/" +
+                                    playerImgAnimPath
+                                            .replace("{player}", this.playerType)
+                                            .replace("{type}", this.animType)
+                                            .replace("{frame}", Integer.toString(this.animCounter))
+                            )
+                    )
+            );
+        } catch (IOException e) {
+            //
         }
-        //still need case to flip the image when turning left or right, not figure it out yet
+
+        return null;
     }
 
-    // check if alive or not
-    public void setAlive(boolean alive){
-        this.alive = alive;
-    }
-    public boolean isAlive(){
-        return alive;
+    public void resetAnimCounter() {
+        this.animCounter = -1;
     }
 
-    public void setDirection(Direction direction) {
-        this.currentDirection = direction;
-        // Update the character animation based on the new direction and state
-        updateAnimationPath();
+    public void setAnimType(String animType) {
+        this.animType = animType;
     }
 
-    public Direction getCurrentDirection() {
-        return currentDirection;
+    public void setSpeed(int speed) {
+        this.speed = speed;
     }
 
-    public void setState(State state) {
-        this.currentState = state;
-        // Update the character animation based on the new direction and state
-        updateAnimationPath();
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // same logic
+        this.keyPressed(e);
     }
 
-    public State getCurrentState() {
-        return currentState;
-    }
+    @Override
+    public void keyPressed(KeyEvent e) {
+        this.resetAnimCounter();
+        this.setAnimType("run");
 
-    private void updateAnimationPath() {
-        switch (currentState) {
-            case IDLE:
-                setAnimationPathBasedOnDirection(getIdleAnimationPath());
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+            case KeyEvent.VK_W:
+                if (this.getPendingY() == 0) this.addY(-this.speed);
                 break;
-            case RUN:
-                setAnimationPathBasedOnDirection(getRunAnimationPath());
+            case KeyEvent.VK_LEFT:
+            case KeyEvent.VK_A:
+                if (this.getPendingX() == 0) this.addX(-this.speed);
                 break;
-            case HIT:
-                characterAnimation = animationHit;
+            case KeyEvent.VK_DOWN:
+            case KeyEvent.VK_S:
+                if (this.getPendingY() == 0) this.addY(this.speed);
+                break;
+            case KeyEvent.VK_RIGHT:
+            case KeyEvent.VK_D:
+                if (this.getPendingX() == 0) this.addX(this.speed);
                 break;
         }
     }
 
-    private String getIdleAnimationPath() {
-        switch (currentDirection) {
-            case UP:
-                return animationIdleUp;
-            case DOWN:
-                return animationIdleDown;
-            case LEFT:
-                return animationIdleLeft;
-            case RIGHT:
-                return animationIdleRight;
-            default:
-                return "";
-        }
+    @Override
+    public void keyReleased(KeyEvent e) {
+        this.resetAnimCounter();
+        this.setAnimType("idle");
+        this.revokePending();
     }
-
-    private String getRunAnimationPath() {
-        switch (currentDirection) {
-            case UP:
-                return animationRunUp;
-            case DOWN:
-                return animationRunDown;
-            case LEFT:
-                return animationRunLeft;
-            case RIGHT:
-                return animationRunRight;
-            default:
-                return "";
-        }
-    }
-
-    private void setAnimationPathBasedOnDirection(String animationPath) {
-        characterAnimation = animationPath;
-    }
-
-    public String getCharacterAsset() {
-        return characterAsset;
-    }
-
-    public void setCharacterAsset(String characterAsset) {
-        this.characterAsset = characterAsset;
-    }
-
-    public String getCharacterAnimation() {
-        return characterAnimation;
-    }
-
-    public void setCharacterAnimation(String characterAnimation) {
-        this.characterAnimation = characterAnimation;
-    }
-
-    protected void setSpeed(double v) {
-
-    }
-
-
-    public void hitPlayer(Player player) {
-        player.setAlive(false);
-        gameOver();
-    }
-
-    private void gameOver() {
-        System.out.println("Game over! Boss defeated the player.");
-    }
-
-     public abstract void update();
-
-    // Placeholder for character assets
-    enum Direction {
-        UP, DOWN, LEFT, RIGHT
-    }
-
-    enum State {
-        IDLE, RUN, HIT
-    }
-
-
 }

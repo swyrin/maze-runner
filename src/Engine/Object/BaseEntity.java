@@ -5,6 +5,7 @@ package Engine.Object;
  */
 public abstract class BaseEntity {
     private int x, y;
+    private int pendingX, pendingY;
 
     /**
      * Create an entity.
@@ -15,6 +16,8 @@ public abstract class BaseEntity {
     public BaseEntity(int x, int y) {
         this.x = x;
         this.y = y;
+        this.pendingX = 0;
+        this.pendingY = 0;
     }
 
     /**
@@ -32,18 +35,31 @@ public abstract class BaseEntity {
     }
 
     /**
-     * Move the entity after applying a set of displacement(s)
+     * Move the entity after applying a set of pending displacement(s)
      */
     public double move() {
-        return Math.sqrt(this.x * this.x + this.y * this.y);
+        int saveX = this.pendingX;
+        int saveY = this.pendingY;
+        this.revokePending();
+        return this.move(saveX, saveY);
     }
 
+    /**
+     * Add x to pending x-axis movement.
+     *
+     * @param x x-axis distance.
+     */
     public void addX(int x) {
-        this.x += x;
+        this.pendingX += x;
     }
 
+    /**
+     * Add y to pending y-axis movement.
+     *
+     * @param y y-axis distance.
+     */
     public void addY(int y) {
-        this.y += y;
+        this.pendingY += y;
     }
 
     /**
@@ -67,6 +83,28 @@ public abstract class BaseEntity {
     }
 
     /**
+     * Revoke pending y-axis movement.
+     */
+    public void revokePendingX() {
+        this.pendingX = 0;
+    }
+
+    /**
+     * Revoke pending x-axis movement.
+     */
+    public void revokePendingY() {
+        this.pendingY = 0;
+    }
+
+    /**
+     * Revoke all pending movements.
+     */
+    public void revokePending() {
+        this.revokePendingX();
+        this.revokePendingY();
+    }
+
+    /**
      * Get current x-axis position.
      *
      * @return The x-axis position.
@@ -84,11 +122,39 @@ public abstract class BaseEntity {
         return y;
     }
 
-    public void setX(){
-        this.x = x;
+    /**
+     * Get pending x-axis distance
+     *
+     * @return Pending x-axis distance
+     */
+    public int getPendingX() {
+        return pendingX;
     }
 
-    public void setY(){
-        this.y = y;
+    /**
+     * Get pending y-axis distance
+     *
+     * @return Pending y-axis distance
+     */
+    public int getPendingY() {
+        return pendingY;
+    }
+
+    /**
+     * Get current post-pending-addition x-axis position.
+     *
+     * @return The post-pending-addition x-axis position.
+     */
+    public int getPostPendingX() {
+        return x + pendingX;
+    }
+
+    /**
+     * Get current post-pending-addition y-axis position.
+     *
+     * @return The post-pending-addition y-axis position.
+     */
+    public int getPostPendingY() {
+        return y + pendingY;
     }
 }

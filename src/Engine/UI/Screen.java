@@ -1,9 +1,9 @@
 package Engine.UI;
 
-import Engine.Core.FpsMeasureThread;
-import Engine.Core.KeyBinding;
+import Engine.FpsMeasure;
 import Engine.Helper.RenderHelper;
 import Engine.RenderSetting;
+import Engine.Renderer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,7 +16,13 @@ public abstract class Screen extends JPanel {
     /**
      * The FPS counter thread.
      */
-    protected final FpsMeasureThread fpsMeasureThread;
+    protected final FpsMeasure fpsMeasure;
+
+    /**
+     * The task in task of rendering.
+     */
+    private final Renderer renderer;
+
     /**
      * The thread in charge of the rendering.
      */
@@ -34,6 +40,7 @@ public abstract class Screen extends JPanel {
      */
     private Window parentWindow;
 
+
     /**
      * Create the screen with the desired fps.
      *
@@ -44,14 +51,9 @@ public abstract class Screen extends JPanel {
 
         this.onDemandRender = false;
         this.targetFps = targetFps;
-        this.fpsMeasureThread = new FpsMeasureThread();
-        this.renderThread = new Thread(() -> {
-            while (true) {
-                this.repaint();
-            }
-        });
-
-        this.init();
+        this.fpsMeasure = new FpsMeasure();
+        this.renderer = new Renderer(this);
+        this.renderThread = new Thread(this.renderer);
     }
 
     /**
@@ -59,23 +61,6 @@ public abstract class Screen extends JPanel {
      */
     public Screen() {
         this(RenderSetting.maxFps);
-    }
-
-    /**
-     * Register a key binding.
-     *
-     * @param bind The key binding.
-     */
-    public void registerKeyEvent(KeyBinding bind) {
-        this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
-                KeyStroke.getKeyStroke(bind.getKeys()),
-                bind.getNote()
-        );
-
-        this.getActionMap().put(
-                bind.getNote(),
-                bind.getAction()
-        );
     }
 
     /**
@@ -136,7 +121,7 @@ public abstract class Screen extends JPanel {
 
         try {
             render(g2d);
-            this.fpsMeasureThread.interrupt();
+            this.fpsMeasure.interrupt();
             Thread.sleep((long) RenderHelper.getRenderDelayForTargetFps(this.targetFps));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
@@ -155,7 +140,7 @@ public abstract class Screen extends JPanel {
         try {
             if (!this.onDemandRender) {
                 this.renderThread.start();
-                this.fpsMeasureThread.start();
+                this.fpsMeasure.start();
             }
         } catch (IllegalThreadStateException ex) {
             // fuck you.
@@ -167,7 +152,11 @@ public abstract class Screen extends JPanel {
      */
     public void dispose() {
         if (this.renderThread.isAlive()) this.renderThread.interrupt();
-        if (this.fpsMeasureThread.isAlive()) this.fpsMeasureThread.interrupt();
+        if (this.fpsMeasure.isAlive()) this.fpsMeasure.interrupt();
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
     }
 
     /**
