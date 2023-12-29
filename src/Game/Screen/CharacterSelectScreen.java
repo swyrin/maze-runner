@@ -1,7 +1,7 @@
 package Game.Screen;
 
 import Engine.UI.Screen;
-import Game.UI.CharSelectBox;
+import Game.UI.CharSelectButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,16 +39,16 @@ public class CharacterSelectScreen extends Screen {
         characterList.setLayout(new GridLayout(1, 3));
         characterList.setBackground(Color.black);
 
-        CharSelectBox elfBox = new CharSelectBox("Elf");
-        CharSelectBox markZuckBox = new CharSelectBox("Lizard");
-        CharSelectBox harryBox = new CharSelectBox("Wizard");
+        CharSelectButton elfBox = new CharSelectButton("Elf");
+        CharSelectButton markZuckerbergBox = new CharSelectButton("Lizard");
+        CharSelectButton harryBox = new CharSelectButton("Wizard");
         characterList.add(elfBox);
-        characterList.add(markZuckBox);
+        characterList.add(markZuckerbergBox);
         characterList.add(harryBox);
 
         elfBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("elf")));
 
-        markZuckBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("lizard")));
+        markZuckerbergBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("lizard")));
 
         harryBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("wizard")));
 
