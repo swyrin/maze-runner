@@ -1,2 +1,3 @@
 *.class
 out/*
+resources/Map/best_time.txt
