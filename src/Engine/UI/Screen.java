@@ -7,6 +7,8 @@ import Engine.Renderer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * The screen to be shown on the window.
@@ -27,6 +29,7 @@ public abstract class Screen extends JPanel {
      * The thread in charge of the rendering.
      */
     private final Thread renderThread;
+
     /**
      * Target fps for this screen.
      */
@@ -40,6 +43,11 @@ public abstract class Screen extends JPanel {
      */
     private Window parentWindow;
 
+    /**
+     * TODO: Write the doc.
+     */
+    private Instant timeOfLastFrame;
+    private Duration deltaTime = Duration.ofSeconds(1);
 
     /**
      * Create the screen with the desired fps.
@@ -99,8 +107,9 @@ public abstract class Screen extends JPanel {
      *
      * @param g the <code>Graphics</code> object to protect
      */
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
 
@@ -123,6 +132,9 @@ public abstract class Screen extends JPanel {
             render(g2d);
             this.fpsMeasure.interrupt();
             Thread.sleep((long) RenderHelper.getRenderDelayForTargetFps(this.targetFps));
+            Instant now = Instant.now();
+            if (this.timeOfLastFrame != null) this.deltaTime = Duration.between(this.timeOfLastFrame, now);
+            this.timeOfLastFrame = Instant.now();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -147,6 +159,10 @@ public abstract class Screen extends JPanel {
         }
     }
 
+    public boolean isOnDemandRender() {
+        return onDemandRender;
+    }
+
     /**
      * Dispose the running screen. Meant to be replaced with another screen.
      */
@@ -157,6 +173,14 @@ public abstract class Screen extends JPanel {
 
     public Renderer getRenderer() {
         return renderer;
+    }
+
+    public Duration getDeltaTime() {
+        return deltaTime;
+    }
+
+    public Instant getTimeOfLastFrame() {
+        return timeOfLastFrame;
     }
 
     /**
