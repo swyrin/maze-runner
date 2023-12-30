@@ -12,7 +12,7 @@ public class Renderer implements Runnable {
 
     @Override
     public void run() {
-        while (!this.isInterrupted) {
+        while (!this.screenToRender.isOnDemandRender() && !this.isInterrupted) {
             this.screenToRender.repaint();
         }
     }
