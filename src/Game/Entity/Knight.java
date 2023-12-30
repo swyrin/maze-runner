@@ -9,7 +9,5 @@ public class Knight extends Player {
      */
     public Knight(int x, int y) {
         super(x, y, "knight");
-
-        setSpeed(2);
     }
 }
