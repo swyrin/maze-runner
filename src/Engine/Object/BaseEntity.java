@@ -1,11 +1,14 @@
 package Engine.Object;
 
+import Engine.UI.Screen;
+
 /**
  * Represents an entity on the screen.
  */
 public abstract class BaseEntity {
     private double x, y;
     private int pendingX, pendingY;
+    private Screen screen;
 
     /**
      * Create an entity.
@@ -18,6 +21,14 @@ public abstract class BaseEntity {
         this.y = y;
         this.pendingX = 0;
         this.pendingY = 0;
+    }
+
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
     }
 
     /**
