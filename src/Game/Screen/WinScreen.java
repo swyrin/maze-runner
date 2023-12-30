@@ -8,9 +8,19 @@ import Game.UI.StyleButton;
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
+import java.time.Duration;
 import java.util.Scanner;
 
 public class WinScreen extends Screen {
+    private String formatDuration(Duration d) {
+        int hour = d.toHoursPart();
+        int minute = d.toMinutesPart();
+        int second = d.toSecondsPart();
+        int nano = d.toNanosPart();
+
+        return String.format("%d:%02d:%02d.%3d", hour, minute, second, nano);
+    }
+
     @Override
     public void render(Graphics2D g2d) {
     }
@@ -32,10 +42,10 @@ public class WinScreen extends Screen {
         favorText.setHorizontalAlignment(JLabel.CENTER);
         favorText.setForeground(Color.orange);
 
-        long totalSeconds = ClockTimer.getElapsedTime().toSeconds();
-        String totalTime = String.format("%d:%02d:%02d", totalSeconds / 3600, (totalSeconds % 3600) / 60, (totalSeconds % 60));
+        Duration totalTime = ClockTimer.getElapsedTime();
+        String totalTimeString = this.formatDuration(ClockTimer.getElapsedTime());
 
-        favorText.setText(favorText.getText().concat("\n").concat("Total time: " + totalTime));
+        favorText.setText(favorText.getText().concat("\n").concat("Total time: " + totalTimeString));
 
         File achievementFile = new File("resources/Map/best_time.txt");
 
@@ -46,7 +56,7 @@ public class WinScreen extends Screen {
             try {
                 achievementFile.createNewFile();
                 PrintWriter out = new PrintWriter(achievementFile);
-                out.println(totalSeconds);
+                out.println(totalTime.toNanos());
                 out.close();
             } catch (IOException e) {
                 //
@@ -56,15 +66,15 @@ public class WinScreen extends Screen {
                 Scanner fileReader = new Scanner(achievementFile);
                 long currentBest = Long.parseLong(fileReader.nextLine());
 
-                String bestTime = String.format("%d:%02d:%02d", currentBest / 3600, (currentBest % 3600) / 60, (currentBest % 60));
+                String bestTime = this.formatDuration(Duration.ofNanos(currentBest));
                 String newFav = favorText.getText().concat("\n").concat("Best score: " + bestTime);
 
-                if (totalSeconds < currentBest) {
+                if (totalTime.toNanos() < currentBest) {
                     newFav = newFav.concat("\n").concat("Sounds like a new best score.");
                     favorText.setText(newFav);
 
                     PrintWriter out = new PrintWriter(achievementFile);
-                    out.println(totalSeconds);
+                    out.println(totalTime.toNanos());
                     out.close();
                 } else {
                     newFav = newFav.concat("\n").concat("Try harder next time!");
