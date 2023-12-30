@@ -2,6 +2,7 @@ package Game.Entity;
 
 import Engine.Helper.StringHelper;
 import Engine.Object.BaseEntity;
+import Engine.RenderSetting;
 import Game.Core.Maze;
 
 import javax.imageio.ImageIO;
@@ -41,8 +42,8 @@ public class Player extends BaseEntity implements KeyListener {
 
     public Image getAnimImg() {
         try {
-            ++this.animCounter;
-            this.animCounter = this.animCounter % 4; // just for safety
+            this.animCounter = (++this.animCounter) % (RenderSetting.maxFps); // just for safety
+            int whatFrameToUse = this.animCounter / (RenderSetting.maxFps / 4); // we have like 4 frames/animation
 
             String playerImgAnimPath = "{player}_m_{type}_anim_f{frame}.png";
             return ImageIO.read(
@@ -51,7 +52,7 @@ public class Player extends BaseEntity implements KeyListener {
                                     playerImgAnimPath
                                             .replace("{player}", this.playerType)
                                             .replace("{type}", this.animType)
-                                            .replace("{frame}", Integer.toString(this.animCounter))
+                                            .replace("{frame}", Integer.toString(whatFrameToUse))
                             )
                     )
             );
