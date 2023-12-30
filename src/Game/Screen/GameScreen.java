@@ -8,7 +8,6 @@ import Game.Entity.Player;
 import Game.Utility.CoordinatePair;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
