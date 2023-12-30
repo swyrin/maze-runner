@@ -68,6 +68,7 @@ public class Maze {
             if (c == PLAYER_CHAR) {
                 m.setPlayerStartX(col);
                 m.setPlayerStartY(row);
+                mat[row][col] = PATH_CONST;
             }
 
             if (c == ENEMY_CHAR) {
