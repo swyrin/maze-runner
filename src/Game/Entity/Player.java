@@ -18,12 +18,6 @@ public class Player extends BaseEntity implements KeyListener {
     private final String playerType;
     private int animCounter;
     private String animType;
-    private int speed;
-    private Maze maze;
-    // if the player is moved, the knight will use the first available path
-    // if the player stands still, the knight will use the next-next+1-next+2 position in path tracing
-    // view listIndex in GameScreen for more information
-    private boolean hasMoved;
     private Direction direction;
 
     /**
@@ -38,8 +32,6 @@ public class Player extends BaseEntity implements KeyListener {
         this.playerType = type;
         this.animCounter = -1;
         this.animType = "idle";
-        this.speed = 1;
-        this.hasMoved = false;
         this.direction = Direction.NONE;
     }
 
@@ -74,16 +66,10 @@ public class Player extends BaseEntity implements KeyListener {
         this.animType = animType;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
         // same logic
-        this.hasMoved = true;
         this.keyPressed(e);
-        this.hasMoved = false;
     }
 
     @Override
@@ -95,34 +81,32 @@ public class Player extends BaseEntity implements KeyListener {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
                 if (this.getPendingY() == 0) {
-                    this.addY(-this.speed);
+                    this.addY(-1);
                     this.setDirection(Direction.UP);
                 }
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
                 if (this.getPendingX() == 0) {
-                    this.addX(-this.speed);
+                    this.addX(-1);
                     this.setDirection(Direction.LEFT);
                 }
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
                 if (this.getPendingY() == 0) {
-                    this.addY(this.speed);
+                    this.addY(1);
                     this.setDirection(Direction.DOWN);
                 }
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 if (this.getPendingX() == 0) {
-                    this.addX(this.speed);
+                    this.addX(1);
                     this.setDirection(Direction.RIGHT);
                 }
                 break;
         }
-
-        this.hasMoved = true;
     }
 
     @Override
@@ -130,20 +114,7 @@ public class Player extends BaseEntity implements KeyListener {
         this.resetAnimCounter();
         this.setAnimType("idle");
         this.revokePending();
-        this.hasMoved = false;
         this.setDirection(Direction.NONE);
-    }
-
-    public Maze getMaze() {
-        return maze;
-    }
-
-    public void setMaze(Maze maze) {
-        this.maze = maze;
-    }
-
-    public boolean isHasMoved() {
-        return hasMoved;
     }
 
     public Direction getDirection() {

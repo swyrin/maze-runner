@@ -2,13 +2,10 @@ package Game.Screen;
 
 import Engine.Loader.FontLoader;
 import Engine.UI.Screen;
-import Game.Core.ClockTimer;
 import Game.UI.StyleButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
-import java.util.Scanner;
 
 public class LoseScreen extends Screen {
     @Override
