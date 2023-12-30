@@ -4,7 +4,7 @@ package Engine.Object;
  * Represents an entity on the screen.
  */
 public abstract class BaseEntity {
-    private int x, y;
+    private double x, y;
     private int pendingX, pendingY;
 
     /**
@@ -13,7 +13,7 @@ public abstract class BaseEntity {
      * @param x The initial x-axis position.
      * @param y The initial y-axis position.
      */
-    public BaseEntity(int x, int y) {
+    public BaseEntity(double x, double y) {
         this.x = x;
         this.y = y;
         this.pendingX = 0;
@@ -76,7 +76,8 @@ public abstract class BaseEntity {
      * @return The boolean, true if they are position-absolute colliding, false otherwise.
      */
     public boolean isCollideWith(BaseEntity other) {
-        return getX() == other.getX() && getY() == other.getY();
+        double threshold = 0.3;
+        return Math.abs(getX() - other.getX()) <= threshold && Math.abs(getY() - other.getY()) <= threshold;
     }
 
     /**
@@ -116,7 +117,7 @@ public abstract class BaseEntity {
      *
      * @return The x-axis position.
      */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
@@ -125,7 +126,7 @@ public abstract class BaseEntity {
      *
      * @return The y-axis position.
      */
-    public int getY() {
+    public double getY() {
         return y;
     }
 
