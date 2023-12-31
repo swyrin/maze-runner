@@ -58,5 +58,5 @@ jobs:
             
             There is an `.exe` file available for Windows users.
             
-            > :warning: Minimum Java version: 8
+            > :warning: Minimum Java version: 21
           files: Game.zip
