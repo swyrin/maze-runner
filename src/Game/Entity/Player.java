@@ -3,8 +3,6 @@ package Game.Entity;
 import Engine.Helper.StringHelper;
 import Engine.Object.BaseEntity;
 import Engine.RenderSetting;
-import Game.Core.Maze;
-import Game.Enum.Direction;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -18,7 +16,6 @@ public class Player extends BaseEntity implements KeyListener {
     private final String playerType;
     private int animCounter;
     private String animType;
-    private Direction direction;
 
     /**
      * Create an entity.
@@ -32,7 +29,6 @@ public class Player extends BaseEntity implements KeyListener {
         this.playerType = type;
         this.animCounter = -1;
         this.animType = "idle";
-        this.direction = Direction.NONE;
     }
 
     public Image getAnimImg() {
@@ -80,31 +76,19 @@ public class Player extends BaseEntity implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
-                if (this.getPendingY() == 0) {
-                    this.addY(-1);
-                    this.setDirection(Direction.UP);
-                }
+                if (this.getPendingY() == 0) this.addY(-1);
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
-                if (this.getPendingX() == 0) {
-                    this.addX(-1);
-                    this.setDirection(Direction.LEFT);
-                }
+                if (this.getPendingX() == 0) this.addX(-1);
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
-                if (this.getPendingY() == 0) {
-                    this.addY(1);
-                    this.setDirection(Direction.DOWN);
-                }
+                if (this.getPendingY() == 0) this.addY(1);
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                if (this.getPendingX() == 0) {
-                    this.addX(1);
-                    this.setDirection(Direction.RIGHT);
-                }
+                if (this.getPendingX() == 0) this.addX(1);
                 break;
         }
     }
@@ -114,14 +98,5 @@ public class Player extends BaseEntity implements KeyListener {
         this.resetAnimCounter();
         this.setAnimType("idle");
         this.revokePending();
-        this.setDirection(Direction.NONE);
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
     }
 }
