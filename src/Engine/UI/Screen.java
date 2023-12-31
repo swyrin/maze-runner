@@ -155,7 +155,7 @@ public abstract class Screen extends JPanel {
                 this.fpsMeasure.start();
             }
         } catch (IllegalThreadStateException ex) {
-            // fuck you.
+            //
         }
     }
 
