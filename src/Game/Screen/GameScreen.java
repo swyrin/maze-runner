@@ -9,6 +9,7 @@ import Game.Utility.CoordinatePair;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -16,23 +17,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class GameScreen extends Screen implements KeyListener {
     private final int currentMapNumber;
     private final String characterName;
-    private final double moveWeight = 9.5f;
     private Maze currentMaze;
     private Image wallImg, keyImg, extractionImg;
     private Player player;
-    private volatile boolean loseShown = false, wonShow = false;
-    // position index in path tracing.
-    // will be reset if the player moves, and increments when the player stands still.
-    // to balance the game, an (moveWeight)-stay:(10-mW)-move weightage will be applied.
-    // more details in the usage of this code.
-    private int listIndex;
-    private ArrayList<CoordinatePair> path;
+    private HashMap<Knight, ArrayList<CoordinatePair>> pathList;
+    private boolean shouldDrawKnightPath = false;
+    private boolean knightShouldMoveOnce = false;
 
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
@@ -70,83 +66,113 @@ public class GameScreen extends Screen implements KeyListener {
 
         // anything not relating to player movements (i.e. drawing) goes above this
         // ======================================
-        int col = this.player.getPostPendingX();
-        int row = this.player.getPostPendingY();
+        double col = this.player.getPostPendingX();
+        double row = this.player.getPostPendingY();
 
-        // I don't get how the addition of the next if prevent the console from flooding errors
-        // but since it works, it's ok.
-        if (0 <= row && row < maze.getHeight() && 0 <= col && col < maze.getWidth())
-            if (map[row][col] != Maze.WALL_CONST) {
+        if (0 <= row && row < maze.getHeight() && 0 <= col && col < maze.getWidth()) {
+            int cell = map[(int)row][(int)col];
+
+            // if we are stepping on the extraction point, just move and offload the processing to the underneath block.
+            // else, perform a wall check.
+            if (cell != Maze.EXTRACTION_CONST)
+                if (cell != Maze.WALL_CONST) { this.player.move(); }
+                else { this.player.revokePending(); }
+            else {
                 this.player.move();
-            } else {
-                this.player.revokePending();
             }
+        }
         // ======================================
-        // anything requires use of player movements (i.e. item gather) goes below this
-
-        col = this.player.getX();
-        row = this.player.getY();
-
-        if (map[row][col] == Maze.KEY_CONST) {
-            maze.removeKey();
-            map[row][col] = Maze.PATH_CONST;
-        }
-
-        if (map[row][col] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
-            if (this.hasNextMap()) {
-                this.getParentWindow().replaceCurrentScreenWith(new GameScreen(this.characterName, this.currentMapNumber + 1));
-            } else {
-                this.getRenderer().cancel();
-                if (!wonShow) {
-                    wonShow = true;
-                    this.getRenderer().cancel();
-                    ClockTimer.stop();
-                    this.getParentWindow().replaceCurrentScreenWith(new WinScreen());
-                }
-            }
-        }
+        // anything requires use of player position (i.e. item gather) goes below this
 
         g2d.drawImage(
                 this.player.getAnimImg(),
-                10 + player.getX() * 28,
-                10 + player.getY() * 28,
+                (int) (10 + player.getX() * 28),
+                (int) (10 + player.getY() * 28),
                 this
         );
 
-        this.listIndex = this.player.isHasMoved() ? 0 : this.listIndex + 1;
-        double randomFactor = new Random().nextDouble(1, 10 + 1);
+        int playerCol = (int) this.player.getX();
+        int playerRow = (int) this.player.getY();
+
+        if (map[playerRow][playerCol] == Maze.KEY_CONST) {
+            maze.removeKey();
+            map[playerRow][playerCol] = Maze.PATH_CONST;
+        }
+
+        if (map[playerRow][playerCol] == Maze.EXTRACTION_CONST && maze.getKeyCount() == 0) {
+            if (this.hasNextMap()) {
+                this.getParentWindow().replaceCurrentScreenWith(
+                        new GameScreen(this.characterName, this.currentMapNumber + 1)
+                );
+            } else {
+                this.getRenderer().cancel();
+                ClockTimer.stop();
+                this.getParentWindow().replaceCurrentScreenWith(new WinScreen());
+            }
+        }
 
         for (Knight knight : maze.getKnightList()) {
-            if (path != null) {
-                if (randomFactor <= this.moveWeight) {
-                    path = maze.findPath(knight, player);
+            ArrayList<CoordinatePair> path = maze.findPath(knight, this.player);
+
+            if (path == null) continue;
+
+            // new path, we add.
+            if (this.pathList.get(knight) == null) {
+                this.pathList.put(knight, path);
+            } else {
+                ArrayList<CoordinatePair> storedPath = this.pathList.get(knight);
+
+                // if not same path, we reset.
+                if (!storedPath.equals(path)) {
+                    pathList.put(knight, path);
                 }
-            } else
-                path = maze.findPath(knight, player);
-
-            CoordinatePair coordinate;
-
-            this.listIndex %= path.size();
-
-            if (randomFactor <= this.moveWeight) this.listIndex = 0;
-
-            coordinate = path.get(this.listIndex);
-
-            knight.moveTo(coordinate.getX(), coordinate.getY());
+            }
 
             g2d.drawImage(
                     knight.getAnimImg(),
-                    10 + coordinate.getX() * 28,
-                    10 + coordinate.getY() * 28,
+                    (int) (10 + knight.getX() * 28),
+                    (int) (10 + knight.getY() * 28),
                     this
             );
 
-            if (this.player.isCollideWith(knight)) {
-                if (!loseShown) {
-                    loseShown = true;
-                    this.getRenderer().cancel();
-                    this.getParentWindow().replaceCurrentScreenWith(new LoseScreen());
+            if (shouldDrawKnightPath) {
+                ArrayList<CoordinatePair> clone = pathList.get(knight);
+
+                // the final position of the path is the player's position.
+                // we don't want to draw over the player.
+                clone.removeLast();
+
+                for (CoordinatePair pair: pathList.get(knight)) {
+                    g2d.drawImage(
+                            knight.getAnimImg(),
+                            (10 + pair.getX() * 28),
+                            (10 + pair.getY() * 28),
+                            this
+                    );
                 }
+            }
+
+            if (knightShouldMoveOnce) {
+                CoordinatePair pair = pathList.get(knight).get(0);
+
+                knight.moveTo(pair.getX(), pair.getY());
+
+                    g2d.drawImage(
+                            knight.getAnimImg(),
+                            (int) (10 + knight.getX() * 28),
+                            (int) (10 + knight.getY() * 28),
+                            this
+                    );
+
+                knightShouldMoveOnce = false;
+            }
+        }
+
+        for (Knight knight: this.currentMaze.getKnightList()) {
+            if (this.player.isCollideWith(knight)) {
+                ClockTimer.stop();
+                this.getRenderer().cancel();
+                this.getParentWindow().replaceCurrentScreenWith(new LoseScreen());
             }
         }
     }
@@ -193,10 +219,34 @@ public class GameScreen extends Screen implements KeyListener {
 
         this.player.setAnimType("idle");
         this.player.resetAnimCounter();
-        this.player.setMaze(this.currentMaze);
+        this.player.setScreen(this);
+
+        for (Knight k: this.currentMaze.getKnightList()) k.setScreen(this);
+
+        this.pathList = new HashMap<>();
+
+        // Java task scheduling is wonky, so I decided to create a timer for this.
+        // ==========================
+        javax.swing.Timer knightDrawTimer = getKnightDrawTimer(750);
+        knightDrawTimer.start();
+        // ==========================
 
         this.addKeyListener(this.player);
         this.addKeyListener(this);
+    }
+
+    private javax.swing.Timer getKnightDrawTimer(int delay) {
+        ActionListener knightDraw = x -> {
+            for (Knight k: this.currentMaze.getKnightList()) {
+                ArrayList<CoordinatePair> path = this.pathList.get(k);
+                if (path.isEmpty()) continue;
+
+                CoordinatePair next = path.get(0);
+
+                k.moveTo(next.getX(), next.getY());
+            }
+        };
+        return new javax.swing.Timer(delay, knightDraw);
     }
 
     @Override
@@ -206,11 +256,20 @@ public class GameScreen extends Screen implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_Q) {
+            ClockTimer.stop();
             this.getParentWindow().replaceCurrentScreenWith(new MainScreen());
         }
 
         if (e.getKeyCode() == (KeyEvent.VK_ALT | KeyEvent.VK_F4)) {
             this.getParentWindow().exit();
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_E) {
+            this.shouldDrawKnightPath = !this.shouldDrawKnightPath;
+        }
+
+        if (e.getKeyCode() == KeyEvent.VK_C) {
+            this.knightShouldMoveOnce = !this.knightShouldMoveOnce;
         }
     }
 
