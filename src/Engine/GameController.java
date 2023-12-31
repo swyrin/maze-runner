@@ -32,13 +32,11 @@ public class GameController {
     }
 
     public GameController setupOpenGLHardwareAcceleration() {
-        if (RenderSetting.useHardwareAcceleration) {
-            System.setProperty("sun.java2d.opengl", "True");
-            System.setProperty("sun.java2d.opengl.fbobject", "False");
-            System.setProperty("sun.java2d.xrender", "True");
-            System.setProperty("sun.java2d.nodraw", "True");
-        }
-
+        System.setProperty("sun.java2d.opengl", "True");
+        System.setProperty("sun.java2d.opengl.fbobject", "False");
+        System.setProperty("sun.java2d.xrender", "True");
+        System.setProperty("sun.java2d.nodraw", "True");
+        
         return this;
     }
 
