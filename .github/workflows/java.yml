@@ -58,5 +58,8 @@ jobs:
             
             There is an `.exe` file available for Windows users.
             
+            > :warning: This project and the executable was built on **OpenJDK**, I will only provide official support for this.
+            > Other JDKs such as: IBM JDK, Oracle JDK - I will provide support *if and only if* you can reproduce on OpenJDK.
+            
             > :warning: Minimum Java version: 21
           files: Game.zip
