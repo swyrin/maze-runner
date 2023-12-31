@@ -34,19 +34,25 @@ public abstract class Screen extends JPanel {
      * Target fps for this screen.
      */
     private final int targetFps;
+
     /**
      * Should this screen be rendered per "repaint()" call or render indefinitely.
      */
     private boolean onDemandRender;
+
     /**
      * The parent window handling this.
      */
     private Window parentWindow;
 
     /**
-     * TODO: Write the doc.
+     * Time of last rendered frame.
      */
     private Instant timeOfLastFrame;
+
+    /**
+     * Time difference of "this frame" and "the previous frame"
+     */
     private Duration deltaTime = Duration.ofSeconds(1);
 
     /**
@@ -143,8 +149,12 @@ public abstract class Screen extends JPanel {
         try {
             if (!this.onDemandRender) {
                 this.renderThread.start();
-                this.fpsMeasure.start();
+            } else {
+                // give it a first frame.
+                this.repaint();
             }
+
+            this.fpsMeasure.start();
         } catch (IllegalThreadStateException ex) {
             //
         }
