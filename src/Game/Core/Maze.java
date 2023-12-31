@@ -23,7 +23,6 @@ public class Maze {
     public static final char ENEMY_CHAR = 'N';
     private final int width;
     private final int height;
-    // REMINDER: NO HARDCODE!!!!
     private final int[][] mazeMatrix;
     private final ArrayList<Knight> knightList;
     private int playerStartX, playerStartY;
@@ -73,7 +72,6 @@ public class Maze {
 
             if (c == ENEMY_CHAR) {
                 Knight k = new Knight(col, row);
-                k.setMaze(m);
                 m.getKnightList().add(k);
                 mat[row][col] = PATH_CONST;
             }
@@ -180,6 +178,9 @@ public class Maze {
                 // I hate java, there is no even result.reverse()
                 Collections.reverse(result);
 
+                // remove first position, since we are already there.
+                result.remove(0);
+
                 return result;
             }
 
@@ -224,48 +225,5 @@ public class Maze {
                 (int) to.getX(),
                 (int) to.getY()
         );
-    }
-
-    public boolean isAnExtraction(double x, double y) {
-        int rowUpper = (int) Math.ceil(y);
-        int rowLower = (int) Math.floor(y);
-        int row = (int) Math.round(y);
-
-        int colUpper = (int) Math.ceil(x);
-        int colLower = (int) Math.floor(x);
-        int col = (int) Math.round(y);
-
-        int[][] mazeMat = this.getMazeMatrix();
-
-        return mazeMat[rowLower][col] == Maze.EXTRACTION_CONST
-                || mazeMat[rowUpper - 1][col] == Maze.EXTRACTION_CONST
-                || mazeMat[row][colLower] == Maze.EXTRACTION_CONST
-                || mazeMat[row][colUpper - 1] == Maze.EXTRACTION_CONST
-                || mazeMat[row][col] == Maze.EXTRACTION_CONST;
-    }
-
-    public boolean isAWall(double x, double y) {
-        // technically, the outside is a big wall
-        if (!(0 < x && x < this.getWidth())) return true;
-        if (!(0 < y && y < this.getHeight())) return true;
-
-        int rowUpper = (int) Math.ceil(y);
-        int rowLower = (int) Math.floor(y);
-        int row = (int) y;
-
-        int colUpper = (int) Math.ceil(x);
-        int colLower = (int) Math.floor(x);
-        int col = (int) x;
-
-        int[][] mazeMat = this.getMazeMatrix();
-
-        // we accept extraction point.
-        // this case exists because: when extraction point is adjacent to wall, this method return "'tis a wall"
-        return
-                !this.isAnExtraction(x, y) &&
-                        (mazeMat[rowLower][col] == Maze.WALL_CONST
-                        && mazeMat[rowUpper - 1][col] == Maze.WALL_CONST
-                        && mazeMat[row][colLower] == Maze.WALL_CONST
-                        && mazeMat[row][colUpper - 1] == Maze.WALL_CONST);
     }
 }
