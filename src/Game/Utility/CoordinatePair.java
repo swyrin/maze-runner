@@ -16,4 +16,11 @@ public class CoordinatePair {
     public int getX() {
         return x;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof CoordinatePair otherPair)) return false;
+
+        return this.x == otherPair.getX() && this.y == otherPair.getY();
+    }
 }
