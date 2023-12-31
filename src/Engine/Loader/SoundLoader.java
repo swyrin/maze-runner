@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 /**
  * The sound player.
  */
-public class SoundPlayer {
+public class SoundLoader {
     /**
      * The associated audio clip.
      */
@@ -26,7 +26,7 @@ public class SoundPlayer {
      * @param path Path of the audio file.
      * @param loop Is loop needed?
      */
-    public SoundPlayer(final String path, boolean loop) {
+    public SoundLoader(final String path, boolean loop) {
         this(path);
         this.loop = loop;
     }
@@ -36,7 +36,7 @@ public class SoundPlayer {
      *
      * @param path Path of the audio file.
      */
-    public SoundPlayer(final String path) {
+    public SoundLoader(final String path) {
         try {
             this.clip = AudioSystem.getClip();
             this.loop = false;
