@@ -230,7 +230,7 @@ public class GameScreen extends Screen implements KeyListener {
 
         // Java task scheduling is wonky, so I decided to create a timer for this.
         // ==========================
-        javax.swing.Timer knightDrawTimer = getKnightDrawTimer(750);
+        javax.swing.Timer knightDrawTimer = getKnightDrawTimer(650);
         knightDrawTimer.start();
         // ==========================
 
