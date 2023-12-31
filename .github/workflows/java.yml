@@ -50,7 +50,6 @@ jobs:
         with:
           tag_name: runnable
           name: Rolling release of the project
-          draft: true
           body: |
             # HOWTO
             Unzip the Game.zip, you should see the `Game.jar` file, `Game.exe` and `resources` folder.
