@@ -70,13 +70,16 @@ public class GameScreen extends Screen implements KeyListener {
         double row = this.player.getPostPendingY();
 
         if (0 <= row && row < maze.getHeight() && 0 <= col && col < maze.getWidth()) {
-            int cell = map[(int)row][(int)col];
+            int cell = map[(int) row][(int) col];
 
             // if we are stepping on the extraction point, just move and offload the processing to the underneath block.
             // else, perform a wall check.
             if (cell != Maze.EXTRACTION_CONST)
-                if (cell != Maze.WALL_CONST) { this.player.move(); }
-                else { this.player.revokePending(); }
+                if (cell != Maze.WALL_CONST) {
+                    this.player.move();
+                } else {
+                    this.player.revokePending();
+                }
             else {
                 this.player.move();
             }
@@ -142,7 +145,7 @@ public class GameScreen extends Screen implements KeyListener {
                 // we don't want to draw over the player.
                 clone.removeLast();
 
-                for (CoordinatePair pair: pathList.get(knight)) {
+                for (CoordinatePair pair : pathList.get(knight)) {
                     g2d.drawImage(
                             knight.getAnimImg(),
                             (10 + pair.getX() * 28),
@@ -157,18 +160,18 @@ public class GameScreen extends Screen implements KeyListener {
 
                 knight.moveTo(pair.getX(), pair.getY());
 
-                    g2d.drawImage(
-                            knight.getAnimImg(),
-                            (int) (10 + knight.getX() * 28),
-                            (int) (10 + knight.getY() * 28),
-                            this
-                    );
+                g2d.drawImage(
+                        knight.getAnimImg(),
+                        (int) (10 + knight.getX() * 28),
+                        (int) (10 + knight.getY() * 28),
+                        this
+                );
 
                 knightShouldMoveOnce = false;
             }
         }
 
-        for (Knight knight: this.currentMaze.getKnightList()) {
+        for (Knight knight : this.currentMaze.getKnightList()) {
             if (this.player.isCollideWith(knight)) {
                 ClockTimer.stop();
                 this.getRenderer().cancel();
@@ -221,7 +224,7 @@ public class GameScreen extends Screen implements KeyListener {
         this.player.resetAnimCounter();
         this.player.setScreen(this);
 
-        for (Knight k: this.currentMaze.getKnightList()) k.setScreen(this);
+        for (Knight k : this.currentMaze.getKnightList()) k.setScreen(this);
 
         this.pathList = new HashMap<>();
 
@@ -237,7 +240,7 @@ public class GameScreen extends Screen implements KeyListener {
 
     private javax.swing.Timer getKnightDrawTimer(int delay) {
         ActionListener knightDraw = x -> {
-            for (Knight k: this.currentMaze.getKnightList()) {
+            for (Knight k : this.currentMaze.getKnightList()) {
                 ArrayList<CoordinatePair> path = this.pathList.get(k);
                 if (path.isEmpty()) continue;
 

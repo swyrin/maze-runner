@@ -72,15 +72,6 @@ public abstract class Screen extends JPanel {
     }
 
     /**
-     * Where this screen is an on-demand render screen.
-     *
-     * @param onDemandRender the flag.
-     */
-    public void setOnDemandRender(boolean onDemandRender) {
-        this.onDemandRender = onDemandRender;
-    }
-
-    /**
      * Get the parent window - the one handling this screen.
      *
      * @return The window.
@@ -161,6 +152,15 @@ public abstract class Screen extends JPanel {
 
     public boolean isOnDemandRender() {
         return onDemandRender;
+    }
+
+    /**
+     * Where this screen is an on-demand render screen.
+     *
+     * @param onDemandRender the flag.
+     */
+    public void setOnDemandRender(boolean onDemandRender) {
+        this.onDemandRender = onDemandRender;
     }
 
     /**

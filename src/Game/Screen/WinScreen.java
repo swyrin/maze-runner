@@ -7,7 +7,10 @@ import Game.UI.StyleButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.util.Scanner;
 
@@ -108,7 +111,7 @@ public class WinScreen extends Screen {
         String text;
 
         text = favorText.getText();
-        favorText.setText("<html>" + text.replaceAll("<","&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
+        favorText.setText("<html>" + text.replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
         favorText.setFont(font.deriveFont(16f));
         this.add(favorText);
 

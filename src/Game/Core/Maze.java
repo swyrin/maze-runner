@@ -136,8 +136,8 @@ public class Maze {
      *
      * @param fromX Starting x-position
      * @param fromY Starting y-position
-     * @param toX Target x-position
-     * @param toY Target y-position
+     * @param toX   Target x-position
+     * @param toY   Target y-position
      * @return A list consisting of coordinates.
      */
     public ArrayList<CoordinatePair> findPath(int fromX, int fromY, int toX, int toY) {
@@ -214,8 +214,9 @@ public class Maze {
     /**
      * Find the path using a home-made A* implementation.
      * This is a deterministic algorithm by the way.
+     *
      * @param from Current {@link BaseEntity}.
-     * @param to Target  {@link BaseEntity}.
+     * @param to   Target  {@link BaseEntity}.
      * @return A list consisting of coordinates.
      */
     public ArrayList<CoordinatePair> findPath(BaseEntity from, BaseEntity to) {

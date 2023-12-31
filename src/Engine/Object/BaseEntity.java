@@ -47,6 +47,7 @@ public abstract class BaseEntity {
     /**
      * Get distance multiplier per renderer frame.
      * This should return the "distance" multiplier between frame[i] and frame[i - 1]
+     *
      * @return The multiplier.
      */
     public double getDistanceFactor() {
@@ -55,6 +56,7 @@ public abstract class BaseEntity {
 
     /**
      * Move to a set location.
+     *
      * @param x x-axis location.
      * @param y y-axis location.
      */
