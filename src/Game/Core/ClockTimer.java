@@ -15,6 +15,8 @@ public class ClockTimer {
     }
 
     public static Duration getElapsedTime() {
-        return Duration.between(startTime, endTime);
+        Instant currentEndTime = endTime == null ? Instant.now() : endTime;
+
+        return Duration.between(startTime, currentEndTime);
     }
 }
