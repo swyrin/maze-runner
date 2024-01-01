@@ -35,11 +35,13 @@ public class StyleButton extends JButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        this.setText(">" + this.getText() + "<");
         this.setForeground(Color.orange);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        this.setText(this.getText().replace(">", "").replace("<", ""));
         this.setForeground(Color.yellow);
     }
 }
