@@ -1,5 +1,6 @@
 package Game.Screen;
 
+import Engine.Helper.StringHelper;
 import Engine.Loader.FontLoader;
 import Engine.UI.Screen;
 import Game.Core.ClockTimer;
@@ -15,15 +16,6 @@ import java.time.Duration;
 import java.util.Scanner;
 
 public class WinScreen extends Screen {
-    private String formatDuration(Duration d) {
-        int hour = d.toHoursPart();
-        int minute = d.toMinutesPart();
-        int second = d.toSecondsPart();
-        int nano = d.toNanosPart();
-
-        return String.format("%d:%02d:%02d.%3d", hour, minute, second, nano);
-    }
-
     @Override
     public void render(Graphics2D g2d) {
     }
@@ -46,7 +38,7 @@ public class WinScreen extends Screen {
         favorText.setForeground(Color.orange);
 
         Duration totalTime = ClockTimer.getElapsedTime();
-        String totalTimeString = this.formatDuration(ClockTimer.getElapsedTime());
+        String totalTimeString = StringHelper.formatDuration(ClockTimer.getElapsedTime());
 
         favorText.setText(favorText.getText().concat("\n").concat("Total time: " + totalTimeString));
 
@@ -69,7 +61,7 @@ public class WinScreen extends Screen {
                 Scanner fileReader = new Scanner(achievementFile);
                 long currentBest = Long.parseLong(fileReader.nextLine());
 
-                String bestTime = this.formatDuration(Duration.ofNanos(currentBest));
+                String bestTime = StringHelper.formatDuration(Duration.ofNanos(currentBest));
                 String newFav = favorText.getText().concat("\n").concat("Best score: " + bestTime);
 
                 if (totalTime.toNanos() < currentBest) {

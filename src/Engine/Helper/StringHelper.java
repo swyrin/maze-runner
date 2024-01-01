@@ -1,5 +1,7 @@
 package Engine.Helper;
 
+import java.time.Duration;
+
 public class StringHelper {
     public static int countLines(String str) {
         String[] lines = str.split("\r\n|\r|\n");
@@ -22,5 +24,14 @@ public class StringHelper {
         }
 
         return titleCase.toString();
+    }
+
+    public static String formatDuration(Duration d) {
+        int hour = d.toHoursPart();
+        int minute = d.toMinutesPart();
+        int second = d.toSecondsPart();
+        int nano = d.toNanosPart();
+
+        return String.format("%d:%02d:%02d.%3d", hour, minute, second, nano);
     }
 }
