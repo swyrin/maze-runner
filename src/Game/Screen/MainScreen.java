@@ -1,5 +1,6 @@
 package Game.Screen;
 
+import Engine.Loader.FontLoader;
 import Engine.UI.Screen;
 import Game.UI.StyleButton;
 
@@ -17,8 +18,14 @@ public class MainScreen extends Screen {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.black);
 
-        JPanel buttonsContainer = new JPanel();
+        Font font = FontLoader.createFont("pixeloid_mono", 35);
 
+        JLabel bigText = new JLabel("The Maze Runner");
+        bigText.setFont(font);
+        bigText.setHorizontalAlignment(JLabel.CENTER);
+        bigText.setForeground(Color.white);
+
+        JPanel buttonsContainer = new JPanel();
         buttonsContainer.setOpaque(false);
         buttonsContainer.setBackground(Color.black);
         buttonsContainer.setLayout(new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS));
@@ -41,6 +48,7 @@ public class MainScreen extends Screen {
         buttonsContainer.add(ruleButton, BorderLayout.SOUTH);
         buttonsContainer.add(exitButton, BorderLayout.SOUTH);
 
+        this.add(bigText);
         this.add(buttonsContainer, BorderLayout.SOUTH);
     }
 }
