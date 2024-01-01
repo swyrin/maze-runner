@@ -44,55 +44,24 @@ public class SoundLoader {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                     new BufferedInputStream(Files.newInputStream(Paths.get(path))));
 
-            getClip().open(inputStream);
+            this.clip.open(inputStream);
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ignored) {
         }
     }
 
     /**
-     * Get the audio associated with this player.
-     *
-     * @return The audio clip.
-     */
-    public Clip getClip() {
-        return clip;
-    }
-
-    /**
-     * Get loop status.
-     *
-     * @return Loop status.
-     */
-    public boolean getLoop() {
-        return loop;
-    }
-
-    /**
      * Starts the player.
-     * Thread safety is guaranteed.
      */
-    public synchronized void start() {
-        new Thread(() -> {
-            try {
-                if (getLoop()) getClip().loop(Clip.LOOP_CONTINUOUSLY);
-                getClip().start();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-        }).start();
+    public void start() {
+        if (this.loop) this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        this.clip.start();
     }
 
     /**
      * Stops the player.
-     * Thread safety is guaranteed.
      */
-    public synchronized void stop() {
-        new Thread(() -> {
-            try {
-                getClip().stop();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-        }).start();
+    public void stop() {
+        if (this.loop) this.clip.loop(0);
+        this.clip.stop();
     }
 }

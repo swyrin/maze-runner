@@ -29,12 +29,11 @@ public class GameScreen extends Screen implements KeyListener {
     private HashMap<Knight, ArrayList<CoordinatePair>> pathList;
     private boolean shouldDrawKnightPath = false;
     private boolean knightShouldMoveOnce = false;
-
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
         this.characterName = character.toLowerCase();
 
-        // first map? start timer
+        // first map?
         if (mapNumber == 0) ClockTimer.start();
     }
 
