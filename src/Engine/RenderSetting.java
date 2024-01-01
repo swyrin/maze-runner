@@ -9,7 +9,7 @@ public class RenderSetting {
     /**
      * Target frames per second.
      */
-    public static int maxFps = 24;
+    public static int maxFps = 80;
 
     /**
      * Whether to use AA.

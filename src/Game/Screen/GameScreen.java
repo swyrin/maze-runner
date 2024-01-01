@@ -1,5 +1,6 @@
 package Game.Screen;
 
+import Engine.Helper.StringHelper;
 import Engine.UI.Screen;
 import Game.Core.ClockTimer;
 import Game.Core.Maze;
@@ -44,6 +45,12 @@ public class GameScreen extends Screen implements KeyListener {
     @Override
     public void render(Graphics2D g2d) {
         Maze maze = this.currentMaze;
+
+        // time & fps draw.
+        g2d.setColor(Color.yellow);
+        g2d.drawString("Time: " + StringHelper.formatDuration(ClockTimer.getElapsedTime()), 10, 555);
+        g2d.drawString("FPS: " + (int) this.fpsMeasure.getFps(), 640, 555);
+        g2d.setColor(Color.gray); // reset
 
         int[][] map = maze.getMazeMatrix();
 
@@ -195,7 +202,7 @@ public class GameScreen extends Screen implements KeyListener {
         }
 
         this.setBackground(Color.black);
-        this.getParentWindow().setSize(720, 600);
+        this.getParentWindow().setSize(705, 600);
 
         String mapStr = "";
 
