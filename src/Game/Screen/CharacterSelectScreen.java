@@ -23,7 +23,7 @@ public class CharacterSelectScreen extends Screen {
 
         JLabel charSelectTitle = new JLabel("Select your character");
         charSelectTitle.setForeground(Color.yellow);
-        charSelectTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        charSelectTitle.setHorizontalAlignment(JLabel.CENTER);
         Path fontPath = Paths.get("resources/Font/pixeloid_mono.ttf");
         Font customFont;
 

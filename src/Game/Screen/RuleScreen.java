@@ -20,7 +20,7 @@ public class RuleScreen extends Screen {
 
         JLabel ruleTitle = new JLabel("RULE");
         ruleTitle.setForeground(Color.yellow);
-        ruleTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        ruleTitle.setHorizontalAlignment(JLabel.CENTER);
 
         Font customFont = FontLoader.createFont("pixeloid_mono", 57f);
         ruleTitle.setFont(customFont);
