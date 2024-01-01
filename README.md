@@ -1,3 +1,21 @@
+> As of 1/1/2024 12:00PM (UTC+7), I will cease all developments for this fork/repository, whatever you call it.
+> 
+> This fork existed because I was, at that time, dissatisfied with my team's progression in developing this project, so I took care of the code myself.  
+> 
+> Since the remaining time is *not even that much*, the end result of the game is nowhere to my satisfaction, even if I did most of the works. Very selfish, I know.
+> 
+> I have done all the regression testings I can do, polished the UI as much as "KISS principle". And now this project has reached the state that I can say
+> "Well, I guess that's all" to it. Nonetheless, the team did their best to their heart's content to give me a starting point for the project, that's very grateful.
+> If there is really a "Labor of Love" award, everyone in my team deserves it.  
+> 
+> One last thing, when the project presentation day is over (2/1/2024), this repository will be archived at the original place (`team-dut` organization).
+> 
+> Without further ado, thank you for reading, and wish you a good 2024.
+> 
+> From Tien Dat Pham with love.
+
+-----------------------------------
+
 # Maze Runner
 
 - Per the title, this game is a cheap knock off of the `Maze Runner` movie title.
