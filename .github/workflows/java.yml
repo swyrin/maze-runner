@@ -50,20 +50,10 @@ jobs:
           zip -r Game.zip Game.exe Game.jar resources README.txt
 
       - name: Release
-        uses: softprops/action-gh-release@v1
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          tag_name: runnable
-          name: Rolling release of the project
-          body: |
-            # How to use.
-            Unzip the Game.zip, you should see the `Game.jar` file, `Game.exe` and `resources` folder.
-            
-            If that is the case, run `java -jar Game.jar`
-            
-            There is an `.exe` file available for Windows users.
-            
-            > :warning: This project and the executable was built on **OpenJDK**, I will only provide official support for this.
-            > Other JDKs such as: IBM JDK, Oracle JDK - I will provide support *if and only if* you can reproduce on OpenJDK.
-            
-            > :warning: Minimum Java version: 21
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: false
+          title: "Game Build"
           files: Game.zip
