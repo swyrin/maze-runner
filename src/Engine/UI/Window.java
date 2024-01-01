@@ -13,6 +13,8 @@ public class Window extends JFrame {
      */
     private Screen currentCanonicalScreen;
 
+    private boolean centered;
+
     /**
      * Create a fixed window, with a fixed dimension, at center of the screen.
      *
@@ -22,7 +24,7 @@ public class Window extends JFrame {
         this.setSize(dimension);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
-        this.setLocationRelativeTo(null);
+        this.centered = false;
     }
 
     /**
@@ -66,6 +68,27 @@ public class Window extends JFrame {
      */
     public void setCurrentCanonicalScreen(Screen currentCanonicalScreen) {
         this.currentCanonicalScreen = currentCanonicalScreen;
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paintComponents(g);
+
+        if (this.centered) {
+            // hacky code to move the window to center.
+            Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+            int x = (int) ((screenDim.getWidth() - this.getWidth()) / 2);
+            int y = (int) ((screenDim.getHeight() - this.getHeight()) / 2);
+            this.setLocation(x, y);
+        }
+    }
+
+    /**
+     * Whether this window should be centered.
+     * @param centered the value.
+     */
+    public void setCentered(boolean centered) {
+        this.centered = centered;
     }
 
     /**

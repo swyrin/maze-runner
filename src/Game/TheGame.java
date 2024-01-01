@@ -14,5 +14,6 @@ public class TheGame extends Window {
         super(dimension);
 
         setTitle("Maze Runner");
+        setCentered(true);
     }
 }
