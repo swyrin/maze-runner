@@ -40,10 +40,14 @@ jobs:
           dos2unix launch4j/*
           ./launch4j/launch4j launch4j.xml
 
+      - name: rename user README file.
+        run: |
+          mv README_user.txt README.txt
+
       - name: Zip needed resources
         run: |
           sudo apt-get install zip
-          zip -r Game.zip Game.exe Game.jar resources
+          zip -r Game.zip Game.exe Game.jar resources README.txt
 
       - name: Release
         uses: softprops/action-gh-release@v1
@@ -51,7 +55,7 @@ jobs:
           tag_name: runnable
           name: Rolling release of the project
           body: |
-            # HOWTO
+            # How to use.
             Unzip the Game.zip, you should see the `Game.jar` file, `Game.exe` and `resources` folder.
             
             If that is the case, run `java -jar Game.jar`
