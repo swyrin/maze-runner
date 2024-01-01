@@ -1,3 +1,13 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: Main game screen - with some keybindings.
+*/
+
 package Game.Screen;
 
 import Engine.Helper.StringHelper;
@@ -30,6 +40,7 @@ public class GameScreen extends Screen implements KeyListener {
     private HashMap<Knight, ArrayList<CoordinatePair>> pathList;
     private boolean shouldDrawKnightPath = false;
     private boolean knightShouldMoveOnce = false;
+
     public GameScreen(String character, int mapNumber) {
         this.currentMapNumber = mapNumber;
         this.characterName = character.toLowerCase();

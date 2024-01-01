@@ -1,3 +1,13 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: The outer border part of a Window
+*/
+
 package Engine.UI;
 
 import javax.swing.*;
@@ -85,6 +95,7 @@ public class Window extends JFrame {
 
     /**
      * Whether this window should be centered.
+     *
      * @param centered the value.
      */
     public void setCentered(boolean centered) {
