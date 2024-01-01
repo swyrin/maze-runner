@@ -2,6 +2,7 @@ package Game;
 
 import Engine.UI.Window;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class TheGame extends Window {
@@ -14,6 +15,7 @@ public class TheGame extends Window {
         super(dimension);
 
         setTitle("Maze Runner");
+        setIconImage(new ImageIcon("resources/game_icon.png").getImage());
         setCentered(true);
     }
 }
