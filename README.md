@@ -1,3 +1,7 @@
+> # **UPDATE 26/2/2024**
+> Since we all received our scores for this project (98, quite impressive), the ownership has been moved to @team-dut organization.
+> Goodbye, and wish you a good year onwards, Mr. V.C.Thanh!
+
 > As of 1/1/2024 12:00PM (UTC+7), I will cease all developments for this fork/repository, whatever you call it.
 > 
 > This fork existed because I was, at that time, dissatisfied with my team's progression in developing this project, so I took care of the code myself.  
