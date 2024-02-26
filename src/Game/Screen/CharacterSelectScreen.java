@@ -53,12 +53,11 @@ public class CharacterSelectScreen extends Screen {
         CharSelectButton markZuckerbergBox = new CharSelectButton("Lizard");
         CharSelectButton harryBox = new CharSelectButton("Wizard");
         characterList.add(elfBox);
-        characterList.add(markZuckerbergBox);add(markZuckBox);
+        characterList.add(markZuckerbergBox);
         characterList.add(harryBox);
 
         elfBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("elf")));
         markZuckerbergBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("lizard")));
-
         harryBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("wizard")));
 
         this.add(charSelectTitle);
