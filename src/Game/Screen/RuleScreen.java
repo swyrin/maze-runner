@@ -1,14 +1,22 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: The screen that demonstrates the rule.
+*/
+
 package Game.Screen;
 
+import Engine.Loader.FontLoader;
 import Engine.UI.Screen;
 import Game.UI.StyleButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+
 
 public class RuleScreen extends Screen {
     @Override
@@ -23,16 +31,9 @@ public class RuleScreen extends Screen {
 
         JLabel ruleTitle = new JLabel("RULE");
         ruleTitle.setForeground(Color.yellow);
-        ruleTitle.setHorizontalAlignment(SwingConstants.CENTER);
-        Path fontPath = Paths.get("resources/Font/pixeloid_mono.ttf");
-        Font customFont;
+        ruleTitle.setHorizontalAlignment(JLabel.CENTER);
 
-        try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, Files.newInputStream(fontPath)).deriveFont(57f);
-        } catch (IOException | FontFormatException e) {
-            customFont = Font.getFont(Font.MONOSPACED);
-        }
-
+        Font customFont = FontLoader.createFont("pixeloid_mono", 57f);
         ruleTitle.setFont(customFont);
 
         JTextArea textArea = new JTextArea();

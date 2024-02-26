@@ -1,8 +1,17 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: Represents Player object - it's you.
+*/
 package Game.Entity;
 
 import Engine.Helper.StringHelper;
 import Engine.Object.BaseEntity;
-
+import Engine.RenderSetting;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -15,7 +24,6 @@ public class Player extends BaseEntity implements KeyListener {
     private final String playerType;
     private int animCounter;
     private String animType;
-    private int speed;
 
     /**
      * Create an entity.
@@ -29,13 +37,12 @@ public class Player extends BaseEntity implements KeyListener {
         this.playerType = type;
         this.animCounter = -1;
         this.animType = "idle";
-        this.speed = 1;
     }
 
     public Image getAnimImg() {
         try {
-            ++this.animCounter;
-            this.animCounter = this.animCounter % 4; // just for safety
+            this.animCounter = (++this.animCounter) % (RenderSetting.maxFps); // just for safety
+            int whatFrameToUse = this.animCounter / (RenderSetting.maxFps / 4); // we have like 4 frames/animation
 
             String playerImgAnimPath = "{player}_m_{type}_anim_f{frame}.png";
             return ImageIO.read(
@@ -44,7 +51,7 @@ public class Player extends BaseEntity implements KeyListener {
                                     playerImgAnimPath
                                             .replace("{player}", this.playerType)
                                             .replace("{type}", this.animType)
-                                            .replace("{frame}", Integer.toString(this.animCounter))
+                                            .replace("{frame}", Integer.toString(whatFrameToUse))
                             )
                     )
             );
@@ -63,10 +70,6 @@ public class Player extends BaseEntity implements KeyListener {
         this.animType = animType;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     @Override
     public void keyTyped(KeyEvent e) {
         // same logic
@@ -81,19 +84,20 @@ public class Player extends BaseEntity implements KeyListener {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
             case KeyEvent.VK_W:
-                if (this.getPendingY() == 0) this.addY(-this.speed);
+                if (this.getPendingY() == 0) this.addY(-1);
                 break;
             case KeyEvent.VK_LEFT:
             case KeyEvent.VK_A:
-                if (this.getPendingX() == 0) this.addX(-this.speed);
+                if (this.getPendingX() == 0) this.addX(-1);
                 break;
             case KeyEvent.VK_DOWN:
             case KeyEvent.VK_S:
-                if (this.getPendingY() == 0) this.addY(this.speed);
+                if (this.getPendingY() == 0) this.addY(1);
                 break;
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
-                if (this.getPendingX() == 0) this.addX(this.speed);
+                if (this.getPendingX() == 0) this.addX(1);
+
                 break;
         }
     }

@@ -1,3 +1,13 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: The "inside the border" part of the window.
+*/
+
 package Engine.UI;
 
 import Engine.FpsMeasure;
@@ -7,6 +17,8 @@ import Engine.Renderer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Duration;
+import java.time.Instant;
 
 /**
  * The screen to be shown on the window.
@@ -27,19 +39,32 @@ public abstract class Screen extends JPanel {
      * The thread in charge of the rendering.
      */
     private final Thread renderThread;
+
     /**
      * Target fps for this screen.
      */
     private final int targetFps;
+
     /**
      * Should this screen be rendered per "repaint()" call or render indefinitely.
      */
     private boolean onDemandRender;
+
     /**
      * The parent window handling this.
      */
     private Window parentWindow;
 
+
+    /**
+     * Time of last rendered frame.
+     */
+    private Instant timeOfLastFrame;
+
+    /**
+     * Time difference of "this frame" and "the previous frame"
+     */
+    private Duration deltaTime = Duration.ofSeconds(1);
 
     /**
      * Create the screen with the desired fps.
@@ -61,15 +86,6 @@ public abstract class Screen extends JPanel {
      */
     public Screen() {
         this(RenderSetting.maxFps);
-    }
-
-    /**
-     * Where this screen is an on-demand render screen.
-     *
-     * @param onDemandRender the flag.
-     */
-    public void setOnDemandRender(boolean onDemandRender) {
-        this.onDemandRender = onDemandRender;
     }
 
     /**
@@ -99,8 +115,9 @@ public abstract class Screen extends JPanel {
      *
      * @param g the <code>Graphics</code> object to protect
      */
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
 
         Graphics2D g2d = (Graphics2D) g;
 
@@ -123,6 +140,9 @@ public abstract class Screen extends JPanel {
             render(g2d);
             this.fpsMeasure.interrupt();
             Thread.sleep((long) RenderHelper.getRenderDelayForTargetFps(this.targetFps));
+            Instant now = Instant.now();
+            if (this.timeOfLastFrame != null) this.deltaTime = Duration.between(this.timeOfLastFrame, now);
+            this.timeOfLastFrame = Instant.now();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -140,11 +160,28 @@ public abstract class Screen extends JPanel {
         try {
             if (!this.onDemandRender) {
                 this.renderThread.start();
-                this.fpsMeasure.start();
+            } else {
+                // give it a first frame.
+                this.repaint();
             }
+
+            this.fpsMeasure.start();
         } catch (IllegalThreadStateException ex) {
-            // fuck you.
+            //
         }
+    }
+
+    public boolean isOnDemandRender() {
+        return onDemandRender;
+    }
+
+    /**
+     * Where this screen is an on-demand render screen.
+     *
+     * @param onDemandRender the flag.
+     */
+    public void setOnDemandRender(boolean onDemandRender) {
+        this.onDemandRender = onDemandRender;
     }
 
     /**
@@ -157,6 +194,14 @@ public abstract class Screen extends JPanel {
 
     public Renderer getRenderer() {
         return renderer;
+    }
+
+    public Duration getDeltaTime() {
+        return deltaTime;
+    }
+
+    public Instant getTimeOfLastFrame() {
+        return timeOfLastFrame;
     }
 
     /**

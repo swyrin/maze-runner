@@ -1,3 +1,13 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: Class dedicated to playback of the sound.
+*/
+
 package Engine.Loader;
 
 import javax.sound.sampled.*;
@@ -9,7 +19,7 @@ import java.nio.file.Paths;
 /**
  * The sound player.
  */
-public class SoundPlayer {
+public class SoundLoader {
     /**
      * The associated audio clip.
      */
@@ -26,7 +36,7 @@ public class SoundPlayer {
      * @param path Path of the audio file.
      * @param loop Is loop needed?
      */
-    public SoundPlayer(final String path, boolean loop) {
+    public SoundLoader(final String path, boolean loop) {
         this(path);
         this.loop = loop;
     }
@@ -36,7 +46,7 @@ public class SoundPlayer {
      *
      * @param path Path of the audio file.
      */
-    public SoundPlayer(final String path) {
+    public SoundLoader(final String path) {
         try {
             this.clip = AudioSystem.getClip();
             this.loop = false;
@@ -44,55 +54,24 @@ public class SoundPlayer {
             AudioInputStream inputStream = AudioSystem.getAudioInputStream(
                     new BufferedInputStream(Files.newInputStream(Paths.get(path))));
 
-            getClip().open(inputStream);
+            this.clip.open(inputStream);
         } catch (LineUnavailableException | UnsupportedAudioFileException | IOException ignored) {
         }
     }
 
     /**
-     * Get the audio associated with this player.
-     *
-     * @return The audio clip.
-     */
-    public Clip getClip() {
-        return clip;
-    }
-
-    /**
-     * Get loop status.
-     *
-     * @return Loop status.
-     */
-    public boolean getLoop() {
-        return loop;
-    }
-
-    /**
      * Starts the player.
-     * Thread safety is guaranteed.
      */
-    public synchronized void start() {
-        new Thread(() -> {
-            try {
-                if (getLoop()) getClip().loop(Clip.LOOP_CONTINUOUSLY);
-                getClip().start();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-        }).start();
+    public void start() {
+        if (this.loop) this.clip.loop(Clip.LOOP_CONTINUOUSLY);
+        this.clip.start();
     }
 
     /**
      * Stops the player.
-     * Thread safety is guaranteed.
      */
-    public synchronized void stop() {
-        new Thread(() -> {
-            try {
-                getClip().stop();
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-        }).start();
+    public void stop() {
+        if (this.loop) this.clip.loop(0);
+        this.clip.stop();
     }
 }

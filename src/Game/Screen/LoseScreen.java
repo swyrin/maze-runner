@@ -5,7 +5,7 @@
         Do Tan Loc - ITCSIU21199
         Mai Xuan Thien - ITITIU21317
         Pham Quoc Huy - ITITIU21215
-    Purpose: The first screen you will see first when booting up the game.
+    Purpose: The screen appears when a knight hits you.
 */
 
 package Game.Screen;
@@ -17,7 +17,7 @@ import Game.UI.StyleButton;
 import javax.swing.*;
 import java.awt.*;
 
-public class MainScreen extends Screen {
+public class LoseScreen extends Screen {
     @Override
     public void render(Graphics2D g2d) {
     }
@@ -28,37 +28,38 @@ public class MainScreen extends Screen {
         this.setLayout(new BorderLayout());
         this.setBackground(Color.black);
 
-        Font font = FontLoader.createFont("pixeloid_mono", 35);
+        Font font = FontLoader.createFont("pixeloid_mono", 60);
 
-        JLabel bigText = new JLabel("The Maze Runner");
+        JLabel bigText = new JLabel("You lose");
         bigText.setFont(font);
         bigText.setHorizontalAlignment(JLabel.CENTER);
-        bigText.setForeground(Color.white);
-        JPanel buttonsContainer = new JPanel();
+        bigText.setForeground(Color.yellow);
 
+        JLabel favorText = new JLabel("Try harder next time!");
+        favorText.setHorizontalAlignment(JLabel.CENTER);
+        favorText.setForeground(Color.orange);
+        favorText.setFont(font.deriveFont(16f));
+
+        JPanel buttonsContainer = new JPanel();
         buttonsContainer.setOpaque(false);
         buttonsContainer.setBackground(Color.black);
         buttonsContainer.setLayout(new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS));
 
-        StyleButton startButton = new StyleButton("Start Game");
-        StyleButton ruleButton = new StyleButton("Rule");
-        StyleButton exitButton = new StyleButton("Exit Game");
+        StyleButton startButton = new StyleButton("Start Again");
+        StyleButton returnButton = new StyleButton("Main Screen");
 
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        ruleButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        returnButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         startButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new CharacterSelectScreen()));
 
-        ruleButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new RuleScreen()));
-
-        exitButton.addActionListener(e -> this.getParentWindow().exit());
+        returnButton.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new MainScreen()));
 
         buttonsContainer.add(startButton, BorderLayout.SOUTH);
-        buttonsContainer.add(ruleButton, BorderLayout.SOUTH);
-        buttonsContainer.add(exitButton, BorderLayout.SOUTH);
+        buttonsContainer.add(returnButton, BorderLayout.SOUTH);
 
-        this.add(bigText);
+        this.add(bigText, BorderLayout.NORTH);
+        this.add(favorText);
         this.add(buttonsContainer, BorderLayout.SOUTH);
     }
 }

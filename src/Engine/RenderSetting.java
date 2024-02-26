@@ -1,3 +1,13 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: Constants that decide various aspects of the engine.
+*/
+
 package Engine;
 
 import java.awt.*;
@@ -9,14 +19,7 @@ public class RenderSetting {
     /**
      * Target frames per second.
      */
-    public static int maxFps = 24;
-
-    /**
-     * Whether to use Hardware Acceleration.
-     * A value of <value>true</value> will set OpenGL as the renderer.
-     * Otherwise, use software rasterization.
-     */
-    public static boolean useHardwareAcceleration = true;
+    public static int maxFps = 80;
 
     /**
      * Whether to use AA.

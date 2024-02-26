@@ -1,11 +1,24 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: A basic entity.
+*/
+
 package Engine.Object;
+
+import Engine.UI.Screen;
 
 /**
  * Represents an entity on the screen.
  */
 public abstract class BaseEntity {
-    private int x, y;
-    private int pendingX, pendingY;
+    private double x, y;
+    private double pendingX, pendingY;
+    private Screen screen;
 
     /**
      * Create an entity.
@@ -13,35 +26,63 @@ public abstract class BaseEntity {
      * @param x The initial x-axis position.
      * @param y The initial y-axis position.
      */
-    public BaseEntity(int x, int y) {
+    public BaseEntity(double x, double y) {
         this.x = x;
         this.y = y;
         this.pendingX = 0;
         this.pendingY = 0;
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
+
     /**
-     * Move the entity.
+     * Move the entity by a displacement.
      *
      * @param xDisplacement The x-axis displacement.
      * @param yDisplacement The y-axis displacement.
-     * @return The distance travelled.
      */
-    public double move(int xDisplacement, int yDisplacement) {
+    public void move(double xDisplacement, double yDisplacement) {
+        if (xDisplacement == 0 && yDisplacement == 0) return;
+
         this.x += xDisplacement;
         this.y += yDisplacement;
+    }
 
-        return Math.sqrt(xDisplacement * xDisplacement + yDisplacement * yDisplacement);
+    /**
+     * Get distance multiplier per renderer frame.
+     * This should return the "distance" multiplier between frame[i] and frame[i - 1]
+     *
+     * @return The multiplier.
+     */
+    public double getDistanceFactor() {
+        return this.screen.getDeltaTime().toMillis() / 1000f;
+    }
+
+    /**
+     * Move to a set location.
+     *
+     * @param x x-axis location.
+     * @param y y-axis location.
+     */
+    public void moveTo(double x, double y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
      * Move the entity after applying a set of pending displacement(s)
      */
-    public double move() {
-        int saveX = this.pendingX;
-        int saveY = this.pendingY;
+    public void move() {
+        double saveX = this.pendingX;
+        double saveY = this.pendingY;
         this.revokePending();
-        return this.move(saveX, saveY);
+        this.move(saveX, saveY);
     }
 
     /**
@@ -49,7 +90,7 @@ public abstract class BaseEntity {
      *
      * @param x x-axis distance.
      */
-    public void addX(int x) {
+    public void addX(double x) {
         this.pendingX += x;
     }
 
@@ -58,7 +99,7 @@ public abstract class BaseEntity {
      *
      * @param y y-axis distance.
      */
-    public void addY(int y) {
+    public void addY(double y) {
         this.pendingY += y;
     }
 
@@ -69,7 +110,8 @@ public abstract class BaseEntity {
      * @return The boolean, true if they are position-absolute colliding, false otherwise.
      */
     public boolean isCollideWith(BaseEntity other) {
-        return getX() == other.getX() && getY() == other.getY();
+        double threshold = 0.3;
+        return Math.abs(getX() - other.getX()) <= threshold && Math.abs(getY() - other.getY()) <= threshold;
     }
 
     /**
@@ -109,7 +151,7 @@ public abstract class BaseEntity {
      *
      * @return The x-axis position.
      */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
@@ -118,7 +160,7 @@ public abstract class BaseEntity {
      *
      * @return The y-axis position.
      */
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -127,7 +169,7 @@ public abstract class BaseEntity {
      *
      * @return Pending x-axis distance
      */
-    public int getPendingX() {
+    public double getPendingX() {
         return pendingX;
     }
 
@@ -136,7 +178,7 @@ public abstract class BaseEntity {
      *
      * @return Pending y-axis distance
      */
-    public int getPendingY() {
+    public double getPendingY() {
         return pendingY;
     }
 
@@ -145,7 +187,7 @@ public abstract class BaseEntity {
      *
      * @return The post-pending-addition x-axis position.
      */
-    public int getPostPendingX() {
+    public double getPostPendingX() {
         return x + pendingX;
     }
 
@@ -154,7 +196,7 @@ public abstract class BaseEntity {
      *
      * @return The post-pending-addition y-axis position.
      */
-    public int getPostPendingY() {
+    public double getPostPendingY() {
         return y + pendingY;
     }
 }

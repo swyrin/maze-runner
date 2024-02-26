@@ -1,7 +1,17 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: Character selection screen.
+*/
+
 package Game.Screen;
 
 import Engine.UI.Screen;
-import Game.UI.CharSelectBox;
+import Game.UI.CharSelectButton;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +33,7 @@ public class CharacterSelectScreen extends Screen {
 
         JLabel charSelectTitle = new JLabel("Select your character");
         charSelectTitle.setForeground(Color.yellow);
-        charSelectTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        charSelectTitle.setHorizontalAlignment(JLabel.CENTER);
         Path fontPath = Paths.get("resources/Font/pixeloid_mono.ttf");
         Font customFont;
 
@@ -39,16 +49,15 @@ public class CharacterSelectScreen extends Screen {
         characterList.setLayout(new GridLayout(1, 3));
         characterList.setBackground(Color.black);
 
-        CharSelectBox elfBox = new CharSelectBox("Elf");
-        CharSelectBox markZuckBox = new CharSelectBox("Lizard");
-        CharSelectBox harryBox = new CharSelectBox("Wizard");
+        CharSelectButton elfBox = new CharSelectButton("Elf");
+        CharSelectButton markZuckerbergBox = new CharSelectButton("Lizard");
+        CharSelectButton harryBox = new CharSelectButton("Wizard");
         characterList.add(elfBox);
-        characterList.add(markZuckBox);
+        characterList.add(markZuckerbergBox);add(markZuckBox);
         characterList.add(harryBox);
 
         elfBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("elf")));
-
-        markZuckBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("lizard")));
+        markZuckerbergBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("lizard")));
 
         harryBox.addActionListener(e -> this.getParentWindow().replaceCurrentScreenWith(new GameScreen("wizard")));
 

@@ -1,27 +1,27 @@
+/*
+    Name: Group 11 from NH3-TTH2
+    Members:
+        Pham Tien Dat - ITITIU21172
+        Do Tan Loc - ITCSIU21199
+        Mai Xuan Thien - ITITIU21317
+        Pham Quoc Huy - ITITIU21215
+    Purpose: A customized JButton
+*/
+
 package Game.UI;
 
+import Engine.Loader.FontLoader;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class StyleButton extends JButton implements MouseListener {
     public StyleButton(String str) {
         super(str);
 
-        try {
-            Font customFont = Font.createFont(
-                    Font.TRUETYPE_FONT,
-                    Files.newInputStream(Paths.get("resources/Font/pixeloid_mono.ttf"))
-            ).deriveFont(30f);
-
-            this.setFont(customFont);
-        } catch (FontFormatException | IOException e) {
-            //
-        }
+        Font customFont = FontLoader.createFont("pixeloid_mono", 30f);
+        this.setFont(customFont);
 
         this.setForeground(Color.yellow);
         this.setBackground(Color.black);
@@ -44,11 +44,13 @@ public class StyleButton extends JButton implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        this.setText(">" + this.getText() + "<");
         this.setForeground(Color.orange);
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
+        this.setText(this.getText().replace(">", "").replace("<", ""));
         this.setForeground(Color.yellow);
     }
 }
