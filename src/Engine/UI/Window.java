@@ -101,7 +101,6 @@ public class Window extends JFrame {
     public void setCentered(boolean centered) {
         this.centered = centered;
     }
-
     /**
      * Exit the window.
      */

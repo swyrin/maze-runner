@@ -34,8 +34,8 @@ public class MainScreen extends Screen {
         bigText.setFont(font);
         bigText.setHorizontalAlignment(JLabel.CENTER);
         bigText.setForeground(Color.white);
-
         JPanel buttonsContainer = new JPanel();
+
         buttonsContainer.setOpaque(false);
         buttonsContainer.setBackground(Color.black);
         buttonsContainer.setLayout(new BoxLayout(buttonsContainer, BoxLayout.Y_AXIS));

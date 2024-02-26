@@ -7,7 +7,6 @@
         Pham Quoc Huy - ITITIU21215
     Purpose: A Thread for measuring FPS (frames/second)
 */
-
 package Engine;
 
 public class FpsMeasure extends Thread {

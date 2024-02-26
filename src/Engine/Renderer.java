@@ -7,7 +7,6 @@
         Pham Quoc Huy - ITITIU21215
     Purpose: A task to draw the frame(s) when needed.
 */
-
 package Engine;
 
 import Engine.UI.Screen;

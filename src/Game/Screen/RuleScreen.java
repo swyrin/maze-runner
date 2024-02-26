@@ -17,6 +17,7 @@ import Game.UI.StyleButton;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class RuleScreen extends Screen {
     @Override
     public void render(Graphics2D g2d) {

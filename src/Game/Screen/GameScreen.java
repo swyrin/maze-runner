@@ -62,7 +62,6 @@ public class GameScreen extends Screen implements KeyListener {
         g2d.drawString("Time: " + StringHelper.formatDuration(ClockTimer.getElapsedTime()), 10, 555);
         g2d.drawString("FPS: " + (int) this.fpsMeasure.getFps(), 640, 555);
         g2d.setColor(Color.gray); // reset
-
         int[][] map = maze.getMazeMatrix();
 
         // draw maze stuffs (maze itself, enemy, keys)
@@ -193,6 +192,7 @@ public class GameScreen extends Screen implements KeyListener {
                 ClockTimer.stop();
                 this.getRenderer().cancel();
                 this.getParentWindow().replaceCurrentScreenWith(new LoseScreen());
+
             }
         }
     }
@@ -250,7 +250,6 @@ public class GameScreen extends Screen implements KeyListener {
         javax.swing.Timer knightDrawTimer = getKnightDrawTimer(650);
         knightDrawTimer.start();
         // ==========================
-
         this.addKeyListener(this.player);
         this.addKeyListener(this);
     }
@@ -268,7 +267,6 @@ public class GameScreen extends Screen implements KeyListener {
         };
         return new javax.swing.Timer(delay, knightDraw);
     }
-
     @Override
     public void keyTyped(KeyEvent e) {
     }

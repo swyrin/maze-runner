@@ -7,7 +7,6 @@
         Pham Quoc Huy - ITITIU21215
     Purpose: Represents Knight object - it's a villain by the way.
 */
-
 package Game.Entity;
 
 public class Knight extends Player {

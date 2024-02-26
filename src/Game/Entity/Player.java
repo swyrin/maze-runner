@@ -7,13 +7,11 @@
         Pham Quoc Huy - ITITIU21215
     Purpose: Represents Player object - it's you.
 */
-
 package Game.Entity;
 
 import Engine.Helper.StringHelper;
 import Engine.Object.BaseEntity;
 import Engine.RenderSetting;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -99,6 +97,7 @@ public class Player extends BaseEntity implements KeyListener {
             case KeyEvent.VK_RIGHT:
             case KeyEvent.VK_D:
                 if (this.getPendingX() == 0) this.addX(1);
+
                 break;
         }
     }

@@ -55,6 +55,7 @@ public abstract class Screen extends JPanel {
      */
     private Window parentWindow;
 
+
     /**
      * Time of last rendered frame.
      */

@@ -1,19 +1,19 @@
 WWWWWWWWWWWWWWWWWWWWWWWW
 WPK                    W
-W                      W
-W               K      W
-W                      W
-WWWWWWWWW              W
-W                      W
-W   N                  W
-W                      W
-W              WWWWWWWWW
-W      K               W
-W                  N   W
-W                      W
-WWWWWWWWWWW            W
-W                      W
-W                  K   W
-WEE    N               W
-WEE                    W
+WWWWWW                 W
+WE                     W
+WE                     W
+WE                     W
+WE    N                W
+WE                     W
+WE                     W
+WE             WWWWWWWWW
+WE     K              EW
+WE                    EW
+WE                    EW
+WE                    EW
+WE                    EW
+WE                 K  EW
+WE     N              EW
+WE                    EW
 WWWWWWWWWWWWWWWWWWWWWWWW
